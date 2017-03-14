@@ -98,7 +98,7 @@ public class Model {
 		states.add(newState);
 	}
 	
-	public ArrayList<State> ASquare(ArrayList<State> phiStates) {
+	public ArrayList<State> AG(ArrayList<State> phiStates) {
 		ArrayList<State> validStates = new ArrayList<State>();
 		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
 		for (State phiState : phiStates) {
@@ -112,7 +112,7 @@ public class Model {
 		return validStates;
 	}
 	
-	public ArrayList<State> AO(ArrayList<State> phiStates){
+	public ArrayList<State> AX(ArrayList<State> phiStates){
 		ArrayList<State> validStates = new ArrayList<State>();
 		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
 		for (State phiState : phiStates) {
