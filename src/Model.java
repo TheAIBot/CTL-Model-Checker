@@ -12,7 +12,7 @@ import sun.net.www.content.audio.x_aiff;
 
 public class Model {
 	// TODO do not delete: ask about definition of reach, and the problems with
-	// it, as discussed before.
+	// it, as discussed before. Also, whether one can assume that there are no stuck states.
 	public HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
 	public ArrayList<State> states = new ArrayList<State>();
 	private final ArrayList<String> atomicPropositions;
@@ -112,18 +112,6 @@ public class Model {
 		return validStates;
 	}
 	
-	public List<State> complementOf(List<State> initialStates, List<State> statesToSubstract) {
-		ArrayList<State> complement = new ArrayList<State>();
-		HashSet<Integer> hashedStatesToSubstract = new HashSet<Integer>();
-		statesToSubstract.stream().forEach(x -> hashedStatesToSubstract.add(x.getStateNumber()));
-		for (State state : states) {
-			if (!hashedStatesToSubstract.contains(state.getStateNumber())) {
-				complement.add(state);
-			}
-		}	
-		return complement;
-	}
-	
 	public List<State> AG(List<State> phiStates) {
 		ArrayList<State> validStates = new ArrayList<State>();
 		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
@@ -200,4 +188,38 @@ public class Model {
 	public void getState() {
 
 	}
+
+	public List<State> complementOf(List<State> initialStates, List<State> statesToSubstract) {
+		ArrayList<State> complement = new ArrayList<State>();
+		HashSet<Integer> hashedStatesToSubstract = new HashSet<Integer>();
+		statesToSubstract.stream().forEach(x -> hashedStatesToSubstract.add(x.getStateNumber()));
+		for (State state : states) {
+			if (!hashedStatesToSubstract.contains(state.getStateNumber())) {
+				complement.add(state);
+			}
+		}	
+		return complement;
+	}
+	
+	public List<State> unionOf(List<State> set1, List<State> set2) {
+		List<State> union = new ArrayList<State>(set1);
+		HashSet<Integer> hashedSet = new HashSet<Integer>();
+		//Check for size to do the minimum number of operations necessary.
+		if (set1.size() > set2.size()) {
+			set1.stream().forEach(state -> hashedSet.add(state.getStateNumber()));
+			set2.stream().filter(state -> !hashedSet.contains(state.getStateNumber())).
+						  forEach(state -> union.add(state));
+			return set1;
+		} else {//The other way around:
+			set2.stream().forEach(state -> hashedSet.add(state.getStateNumber()));
+			set1.stream().filter(state -> !hashedSet.contains(state.getStateNumber())).
+						  forEach(state -> union.add(state));
+			return set2;
+		}		
+	}
+	
+	public List<State> intersectionOf(List<State> set1, List<State> set2) {
+		return null;
+	}
+	
 }
