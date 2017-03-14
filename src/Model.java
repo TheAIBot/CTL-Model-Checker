@@ -147,7 +147,11 @@ public class Model {
 	}
 
 	public List<State> EG(List<State> phiStates) {
-		return states.stream().filter(x -> x.containsLoop()).collect(Collectors.toList());
+		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
+		// add all phi states to hashset
+		phiStates.stream().forEach(x -> hashedPhiStates.add(x.getStateNumber()));
+		
+		return states.stream().filter(x -> x.containsPhiLoop(hashedPhiStates)).collect(Collectors.toList());
 	}
 
 	private boolean isSuperSet(List<State> subSet, HashSet<Integer> hashedSuperSet) {

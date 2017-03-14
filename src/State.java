@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class State {
 	private final Model model;
@@ -38,10 +39,10 @@ public class State {
 		return reachableStates;
 	}
 
-	public boolean containsLoop() {
+	public boolean containsPhiLoop(HashSet<Integer> phi) {
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
-		statesToVisit.addAll(this.connectedStates);
+		statesToVisit.addAll(this.connectedStates.stream().filter(x -> phi.contains(x.getStateNumber())).collect(Collectors.toList()));
 		
 		HashSet<Integer> hasSeen = new HashSet<Integer>();
 		hasSeen.add(this.getStateNumber());
@@ -52,7 +53,7 @@ public class State {
 				return true;
 			}
 			for (State state : currentState.getConnectedStates()) {
-				if (!hasSeen.contains(state.getStateNumber())) {
+				if (!hasSeen.contains(state.getStateNumber()) && phi.contains(state.getStateNumber())) {
 					statesToVisit.add(state);
 					hasSeen.add(state.getStateNumber());
 				}
