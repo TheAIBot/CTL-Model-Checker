@@ -24,19 +24,32 @@ public class testEX {
 		
 		
 		HashSet<State> phiStates = new HashSet<State>();
-		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(1));
+		HashSet<State> acceptedStates = model.EX(phiStates);
+		assertEquals(1, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
 		
-		HashSet<State> acceptedStates = (HashSet<State>) model.EX(phiStates);
+		
+		phiStates.clear();
+		phiStates.add(model.getState(2));
+		acceptedStates = model.EX(phiStates);
 		assertEquals(1, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		
 		
 		phiStates.clear();
 		phiStates.add(model.getState(3));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(1, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(4)));
 		
-		acceptedStates = (HashSet<State>) model.EX(phiStates);
+		
+		phiStates.clear();
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
 		assertEquals(2, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
 		
 	}
 
