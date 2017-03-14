@@ -98,6 +98,18 @@ public class Model {
 		states.add(newState);
 	}
 	
+	public ArrayList<State> AllDiamondsAreUnbreakable(ArrayList<State> phiStates){
+		ArrayList<State> validStates = new ArrayList<State>();
+		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
+		for (State phiState : phiStates) {
+			hashedPhiStates.add(phiState.getStateNumber());
+		}
+		for (State state : phiStates) {
+			
+		}
+		return validStates;
+	}
+	
 	public ArrayList<State> AG(ArrayList<State> phiStates) {
 		ArrayList<State> validStates = new ArrayList<State>();
 		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
@@ -119,7 +131,7 @@ public class Model {
 			hashedPhiStates.add(phiState.getStateNumber());
 		}
 		for (State state : states) {
-			if (isSuperSet(state.connectedStates,hashedPhiStates)) {
+			if (!state.connectedStates.isEmpty() && isSuperSet(state.connectedStates,hashedPhiStates)) {
 				validStates.add(state);
 			}
 		}

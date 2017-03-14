@@ -37,6 +37,8 @@ public class State {
 		
 		return reachableStates;
 	}
+	
+	public 
 
 	public void setNeighbors() {
 		connectedStates.clear();
