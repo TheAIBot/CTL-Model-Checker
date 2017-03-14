@@ -2,6 +2,8 @@ package tests;
 
 import org.junit.Test;
 
+import check.Model;
+
 public class testEX {
 	
 	@Test
