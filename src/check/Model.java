@@ -1,6 +1,6 @@
+package check;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,7 +58,7 @@ public class Model {
 		return true;
 	}
 
-	public void readyModel() {
+	public void initialize() {
 		if (isModelValid()) {
 			for (State state : states) {
 				state.readyNeighborList();
@@ -140,24 +140,16 @@ public class Model {
 		return validStates;
 	}
 
-	public List<State> EX(List<State> phiStates) {
-		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
-		// add all phi states to hashset
-		phiStates.stream().forEach(x -> hashedPhiStates.add(x.getStateNumber()));
-
-		return states.stream().filter(x -> x.getConnectedStates().stream().allMatch(y -> hashedPhiStates.contains(y.getStateNumber()))).collect(Collectors.toList());
+	public HashSet<State> EX(HashSet<State> phiStates) {		
+		return states.stream().filter(x -> x.getConnectedStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public List<State> EF(List<State> phiStates) {
-		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
-		// add all phi states to hashset
-		phiStates.stream().forEach(x -> hashedPhiStates.add(x.getStateNumber()));
-		
-		return states.stream().filter(x -> x.getReachableStates().stream().anyMatch(y -> hashedPhiStates.contains(y.getStateNumber()))).collect(Collectors.toList());
+	public HashSet<State> EF(HashSet<State> phiStates) {		
+		return states.stream().filter(x -> x.getReachableStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public List<State> EG(List<State> phiStates) {
-		return states.stream().filter(x -> x.containsLoop()).collect(Collectors.toList());
+	public HashSet<State> EG(HashSet<State> phiStates) {		
+		return states.stream().filter(x -> x.containsPhiLoop(phiStates)).collect(Collectors.toCollection(HashSet::new));
 	}
 
 	private boolean isSuperSet(List<State> subSet, HashSet<Integer> hashedSuperSet) {
@@ -185,8 +177,12 @@ public class Model {
 			return false;
 	}
 
-	public void getState() {
-
+	public List<State> getStates() {
+		return states;
+	}
+	
+	public State getState(int stateNumber) {
+		return stateMap.get(stateNumber);
 	}
 
 	public List<State> complementOf(List<State> initialStates, List<State> statesToSubstract) {

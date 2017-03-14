@@ -1,3 +1,4 @@
+package check;
 
 public class Towers {
 	public static void main(String[] args) {
