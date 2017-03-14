@@ -60,6 +60,52 @@ public class testEX {
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(3));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(2, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(2, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(3));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(2, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(3));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
 	}
 
 }
