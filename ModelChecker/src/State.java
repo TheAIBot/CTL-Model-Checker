@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class State {
 	private final Model model;
@@ -14,6 +18,25 @@ public class State {
 		this.edges = edges;
 	}
 	
+	public List<State> getReachableStates(){
+		ArrayList<State> reachableStates = new ArrayList<State>();
+		//Using breadth first, iteratively:
+		Queue<State> statesToVisit = new LinkedList<State>();
+		HashSet<Integer> hasSeen = new HashSet<Integer>();
+		statesToVisit.add(this);
+		while (!statesToVisit.isEmpty()) {
+			State currentState = statesToVisit.poll();
+			for (State state : currentState.connectedStates) {
+				if (!hasSeen.contains(state.getStateNumber())) {
+					statesToVisit.add(state);
+					hasSeen.add(state.getStateNumber());
+					reachableStates.add(state);
+				}
+			}
+		}	
+		
+		return reachableStates;
+	}
 
 	public void setNeighbors() {
 		connectedStates.clear();

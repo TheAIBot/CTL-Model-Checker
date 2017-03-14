@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Model {
+	//TODO do not delete: ask about definition of reach, and the problems with it, as discussed before.
 	public HashMap<Integer, State> stateMap = new HashMap<Integer,State>();
 	public ArrayList<State> states = new ArrayList<State>();
 	private final ArrayList<String> atomicPropositions;
@@ -97,18 +98,41 @@ public class Model {
 		states.add(newState);
 	}
 	
-	private boolean isSuperSet(List<State> subSet,List<State> superSet) {
-		HashSet<Integer> superSetMap= new HashSet<Integer>();
-		for (State state : superSet) {
-			superSetMap.add(state.getStateNumber());
+	public ArrayList<State> ASquare(ArrayList<State> phiStates) {
+		ArrayList<State> validStates = new ArrayList<State>();
+		return validStates;
+	}
+	
+	public ArrayList<State> AO(ArrayList<State> phiStates){
+		ArrayList<State> validStates = new ArrayList<State>();
+		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
+		for (State phiState : phiStates) {
+			hashedPhiStates.add(phiState.getStateNumber());
 		}
+		for (State state : states) {
+			if (isSuperSet(state.connectedStates,hashedPhiStates)) {
+				validStates.add(state);
+			}
+		}
+		return validStates;
+	}
+	
+	private boolean isSuperSet(List<State> subSet, HashSet<Integer> hashedSuperSet) {
 		for (State state : subSet) {
-			if (!superSetMap.contains(state.getStateNumber())) {
+			if (!hashedSuperSet.contains(state.getStateNumber())) {
 				return false;
 			}
 		}
 		return true;
 		
+	}
+	
+	private boolean isSuperSet(List<State> subSet,List<State> superSet) {
+		HashSet<Integer> hashedSuperSet= new HashSet<Integer>();
+		for (State state : superSet) {
+			hashedSuperSet.add(state.getStateNumber());
+		}
+		return isSuperSet(subSet, hashedSuperSet);		
 	}
 	
 	public boolean checkIncludesInitialStates(ArrayList<State> superSet) {
