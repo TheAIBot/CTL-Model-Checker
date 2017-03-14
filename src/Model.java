@@ -101,9 +101,18 @@ public class Model {
 		stateMap.put(newState.getStateNumber(), newState);
 		states.add(newState);
 	}
-
-	public ArrayList<State> ASquare(ArrayList<State> phiStates) {
+	
+	public ArrayList<State> AG(ArrayList<State> phiStates) {
 		ArrayList<State> validStates = new ArrayList<State>();
+		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
+		for (State phiState : phiStates) {
+			hashedPhiStates.add(phiState.getStateNumber());
+		}
+		for (State state : states) {
+			if (isSuperSet(state.getReachableStates(),hashedPhiStates)) {
+				validStates.add(state);
+			}
+		}
 		return validStates;
 	}
 
