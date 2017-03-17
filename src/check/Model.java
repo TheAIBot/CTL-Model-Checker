@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 public class Model {
 	// TODO do not delete: ask about definition of reach, and the problems with
 	// it, as discussed before.
-	public HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
-	public ArrayList<State> states = new ArrayList<State>();
+	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
+	public final ArrayList<State> states = new ArrayList<State>();
 	private final ArrayList<String> atomicPropositions;
-	private ArrayList<State> initialStates = new ArrayList<State>();
+	private final ArrayList<State> initialStates = new ArrayList<State>();
 
 	/**
 	 * TODO no comma as a character in the atomic propositions!
@@ -31,16 +31,25 @@ public class Model {
 	public void setStartStates(String startStateNumbersString) {
 		String[] startStateNumbers = startStateNumbersString.split(",");
 		for (String stateNumberString : startStateNumbers) {
-			try {
-				int stateNumber = Integer.parseInt(stateNumberString);
-				if (!stateMap.containsKey(stateNumber)) {
-					System.out.println("Error: the declared start state " + stateNumber + " does not exist");
-				} else {
-					initialStates.add(stateMap.get(stateNumber));
-				}
-			} catch (Exception e) {
-				System.out.println("The start state string must only contain integers, not: " + stateNumberString);
+			if (!isInteger(stateNumberString)) {
+				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
 			}
+			
+			int stateNumber = Integer.parseInt(stateNumberString);
+			if (!stateMap.containsKey(stateNumber)) {
+				throw new Error("Error: the declared start state " + stateNumber + " does not exist");
+			}
+			
+			initialStates.add(stateMap.get(stateNumber));
+		}
+	}
+	
+	private boolean isInteger(String maybeInteger) {
+		try {
+			Integer.parseInt(maybeInteger);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -66,10 +75,10 @@ public class Model {
 
 	public void addState(int stateNumber, String labelString, String edgeString) {
 		if (stateNumber < 0) {
-			System.out.println("Error: state numbers must not be less than zero");
+			throw new Error("Error: state numbers must not be less than zero");
 		}
 		if (stateMap.containsKey(stateNumber)) {
-			System.out.println("Error: cannot insert state " + stateNumber + " twice.");
+			throw new Error("Error: cannot insert state " + stateNumber + " twice.");
 		}
 		String[] labels = labelString.split(",");// (*) Remember to check for
 													// duplicates!
@@ -77,24 +86,22 @@ public class Model {
 		Arrays.sort(labels); // Just for the heck of it.
 		for (String label : labels) {
 			if (!atomicPropositions.contains(label)) {
-				System.out.println("Error: " + label + " is not an atomic proposition.");
+				throw new Error("Error: " + label + " is not an atomic proposition.");
 			}
 		}
 		int[] edges = new int[edgesStrings.length];
 		for (int i = 0; i < edges.length; i++) {
-			try {
-				edges[i] = Integer.parseInt(edgesStrings[i]);
-			} catch (Exception e) {
-				System.out.println("Error: the edges given must be integers, not: " + edgesStrings[i]);
-				return;
+			if (!isInteger(edgesStrings[i])) {
+				throw new Error("Error: the edges given must be integers, not: " + edgesStrings[i]);
 			}
+			
+			edges[i] = Integer.parseInt(edgesStrings[i]);
 		}
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
 		for (int i = 0; i < edges.length - 1; i++) {
 			if (edges[i] >= edges[i + 1]) {
-				System.out.println("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
-				return;
+				throw new Error("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
 			}
 		}
 		State newState = new State(this, stateNumber, labels, edges);
