@@ -9,12 +9,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model {
-	// TODO do not delete: ask about definition of reach, and the problems with
-	// it, as discussed before.
+	// it, as discussed before. Also, whether one can assume that there are no stuck states.
 	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
-	public final ArrayList<State> states = new ArrayList<State>();
+	public final HashSet<State> states = new HashSet<State>();
 	private final ArrayList<String> atomicPropositions;
-	private final ArrayList<State> initialStates = new ArrayList<State>();
+	private final HashSet<State> initialStates = new HashSet<State>();
 
 	/**
 	 * TODO no comma as a character in the atomic propositions!
@@ -109,28 +108,29 @@ public class Model {
 		states.add(newState);
 	}
 	
-	public ArrayList<State> AG(ArrayList<State> phiStates) {
-		ArrayList<State> validStates = new ArrayList<State>();
-		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
-		for (State phiState : phiStates) {
-			hashedPhiStates.add(phiState.getStateNumber());
-		}
+	public HashSet<State> AllDiamondsAreUnbreakable(HashSet<State> phiStates){
+		//TODO will not work in the case that there exists stuck states. 
+		HashSet<State> allButPhiStates = complementOf(states, phiStates);
+		HashSet<State> notValidStates = EG(allButPhiStates);
+		HashSet<State> validStates = complementOf(states, notValidStates);
+		return validStates;
+	}
+	
+	public HashSet<State> AG(HashSet<State> phiStates) {
+		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (isSuperSet(state.getReachableStates(),hashedPhiStates)) {
+			if (isSuperSet(state.getReachableStates(),phiStates)) {
 				validStates.add(state);
 			}
 		}
 		return validStates;
 	}
 
-	public List<State> AO(List<State> phiStates) {
-		ArrayList<State> validStates = new ArrayList<State>();
-		HashSet<Integer> hashedPhiStates = new HashSet<Integer>();
-		for (State phiState : phiStates) {
-			hashedPhiStates.add(phiState.getStateNumber());
-		}
+	public HashSet<State> AO(HashSet<State> phiStates) {
+		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (isSuperSet(state.connectedStates, hashedPhiStates)) {
+			if (!state.connectedStates.isEmpty() && 
+				isSuperSet(new HashSet<State>(state.connectedStates),validStates)) {
 				validStates.add(state);
 			}
 		}
@@ -149,36 +149,48 @@ public class Model {
 		return states.stream().filter(x -> x.containsPhiLoop(phiStates)).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	private boolean isSuperSet(List<State> subSet, HashSet<Integer> hashedSuperSet) {
+	private boolean isSuperSet(HashSet<State> subSet, HashSet<State> superSet) {
 		for (State state : subSet) {
-			if (!hashedSuperSet.contains(state.getStateNumber())) {
+			if (!superSet.contains(state)) {
 				return false;
 			}
 		}
 		return true;
 
 	}
-
-	private boolean isSuperSet(List<State> subSet, List<State> superSet) {
-		HashSet<Integer> hashedSuperSet = new HashSet<Integer>();
-		for (State state : superSet) {
-			hashedSuperSet.add(state.getStateNumber());
-		}
-		return isSuperSet(subSet, hashedSuperSet);
-	}
-
-	public boolean checkIncludesInitialStates(ArrayList<State> superSet) {
+	
+	public boolean checkIncludesInitialStates(HashSet<State> superSet) {
 		if (isSuperSet(initialStates, superSet)) {
 			return true;
-		} else
-			return false;
+		} else return false;
 	}
 
-	public List<State> getStates() {
+	public HashSet<State> getStates() {
 		return states;
 	}
 	
 	public State getState(int stateNumber) {
 		return stateMap.get(stateNumber);
 	}
+	
+	public HashSet<State> complementOf(HashSet<State> initialStates, HashSet<State> statesToSubstract) {
+		HashSet<State> complement = new HashSet<State>();
+		for (State state : initialStates) {
+			if (!statesToSubstract.contains(state.getStateNumber())) {
+				complement.add(state);
+			}
+		}	
+		return complement;
+	}
+	
+	public HashSet<State> unionOf(HashSet<State> set1, List<State> set2) {
+		HashSet<State> union = new HashSet<State>(set1);
+		union.addAll(set2);
+		return union;
+	}
+	
+	public HashSet<State> intersectionOf(HashSet<State> set1, List<State> set2) {
+		return null;
+	}
+	
 }

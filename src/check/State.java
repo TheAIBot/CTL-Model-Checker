@@ -11,7 +11,7 @@ public class State {
 	private final int stateNumber;
 	public final String[] labels;
 	public final int[] edges;
-	public final ArrayList<State> connectedStates = new ArrayList<State>();
+	public final HashSet<State> connectedStates = new HashSet<State>();
 
 	public State(Model model, int stateNumber, String[] labels, int[] edges) {
 		this.model = model;
@@ -20,8 +20,8 @@ public class State {
 		this.edges = edges;
 	}
 
-	public List<State> getReachableStates() {
-		ArrayList<State> reachableStates = new ArrayList<State>();
+	public HashSet<State> getReachableStates() {
+		HashSet<State> reachableStates = new HashSet<State>();
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
 		HashSet<Integer> hasSeen = new HashSet<Integer>();
@@ -39,6 +39,7 @@ public class State {
 
 		return reachableStates;
 	}
+	
 
 	public boolean containsPhiLoop(HashSet<State> phi) {
 		// Using breadth first, iteratively:
@@ -77,7 +78,7 @@ public class State {
 		}
 	}
 
-	public ArrayList<State> getConnectedStates() {
+	public HashSet<State> getConnectedStates() {
 		return connectedStates;
 	}
 
