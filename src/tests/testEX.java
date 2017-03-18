@@ -14,13 +14,7 @@ public class testEX {
 	
 	@Test
 	public void test1() {
-		Model model = new Model("v,c");
-		model.addState(1, "v", "2");
-		model.addState(2, "v", "1,4");
-		model.addState(3, "c", "4");
-		model.addState(4, "c", "3");
-		model.setStartStates("1,2,3,4");
-		model.initialize();
+		Model model = Towers.getTestModel();
 		
 		
 		HashSet<State> phiStates = new HashSet<State>();
@@ -110,6 +104,64 @@ public class testEX {
 		phiStates.add(model.getState(4));
 		acceptedStates = model.EX(phiStates);
 		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(3));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(3));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(3, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(3));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(4, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertTrue(acceptedStates.contains(model.getState(4)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		phiStates.add(model.getState(2));
+		phiStates.add(model.getState(3));
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(4, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
