@@ -1,10 +1,10 @@
 package check;
 
 public class Towers {
+	
 	public static void main(String[] args) {
 		Model model = getTestModel();
 		System.out.println("Have no fear, the model is here!");
-		System.out.println("Answer the model is valid: " + model.isModelValid() + "!");
 	}
 	
 	
