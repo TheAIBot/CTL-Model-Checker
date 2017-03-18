@@ -41,7 +41,7 @@ public class State {
 	}
 	
 
-	public boolean containsPhiLoop(HashSet<State> phi) {
+	public boolean canReachPhiLoop(HashSet<State> phi) {
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
 		statesToVisit.addAll(this.connectedStates.stream().filter(x -> phi.contains(x)).collect(Collectors.toList()));
@@ -55,13 +55,36 @@ public class State {
 				return true;
 			}
 			for (State state : currentState.getConnectedStates()) {
-				if (!hasSeen.contains(state.getStateNumber()) && phi.contains(state)) {
+				if (phi.contains(state)) {
 					statesToVisit.add(state);
 					hasSeen.add(state.getStateNumber());
 				}
 			}
 		}
 
+		return false;
+	}
+	
+	public boolean canFollowPhiToStuckPhiState(HashSet<State> phi) {
+		HashSet<State> reachableStates = new HashSet<State>();
+		// Using breadth first, iteratively:
+		Queue<State> statesToVisit = new LinkedList<State>();
+		statesToVisit.add(this);
+		statesToVisit.addAll(this.connectedStates.stream().filter(x -> phi.contains(x)).collect(Collectors.toList()));
+		reachableStates.add(this);
+		
+		while (!statesToVisit.isEmpty()) {
+			State currentState = statesToVisit.poll();
+			if (currentState.getConnectedStates().size() == 0 && phi.contains(currentState)) {
+				return true;
+			}			
+			for (State state : currentState.getConnectedStates()) {
+				if (!reachableStates.contains(state) && phi.contains(state)) {
+					statesToVisit.add(state);
+					reachableStates.add(state);
+				}
+			}
+		}
 		return false;
 	}
 

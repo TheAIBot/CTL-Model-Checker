@@ -161,7 +161,7 @@ public class Model {
 	}
 
 	public HashSet<State> EG(HashSet<State> phiStates) {
-		return states.stream().filter(x -> x.containsPhiLoop(phiStates)).collect(Collectors.toCollection(HashSet::new));
+		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) || x.canFollowPhiToStuckPhiState(phiStates)).collect(Collectors.toCollection(HashSet::new));
 	}
 
 	private boolean isSuperSet(HashSet<State> subSet, HashSet<State> superSet) {
