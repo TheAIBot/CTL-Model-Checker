@@ -16,6 +16,7 @@ public class Model {
 	public final HashSet<State> states = new HashSet<State>();
 	private final ArrayList<String> atomicPropositions;
 	private final HashSet<State> initialStates = new HashSet<State>();
+	private boolean hasBeenInitialized = false;
 
 	/**
 	 * TODO no comma as a character in the atomic propositions!
@@ -68,9 +69,13 @@ public class Model {
 		for (State state : states) {
 			state.readyNeighborList();
 		}
+		hasBeenInitialized = true;
 	}
 
 	public void addState(int stateNumber, String labelString, String edgeString) {
+		if (hasBeenInitialized) {
+			throw new Error("Error: one must not add a new state to the transition system after it has been initialized.");
+		}
 		if (stateNumber < 0) {
 			throw new Error("Error: state numbers must not be less than zero");
 		}
@@ -123,10 +128,17 @@ public class Model {
 	}
 	
 	public HashSet<State> AF(HashSet<State> phiStates){
-		//TODO will not work in the case that there exists stuck states. 
+		//TODO will not work in the case that there exists stuck states.
+		
+		//All the states coming from a path of infinite lenght:
 		HashSet<State> allButPhiStates = complementOf(states, phiStates);
+		System.out.println((new ArrayList<State>(allButPhiStates)).toString());
 		HashSet<State> notValidStates = EG(allButPhiStates);
+		System.out.println((new ArrayList<State>(notValidStates)).toString());
 		HashSet<State> validStates = complementOf(states, notValidStates);
+		System.out.println((new ArrayList<State>(validStates)).toString());
+		//A finite length path:
+		//TODO (*) Make
 		return validStates;
 	}
 	
@@ -142,7 +154,7 @@ public class Model {
 		return validStates;
 	}
 
-	public HashSet<State> AO(HashSet<State> phiStates) {
+	public HashSet<State> AX(HashSet<State> phiStates) {
 		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
@@ -206,8 +218,19 @@ public class Model {
 	}
 	
 	public HashSet<State> intersectionOf(HashSet<State> set1, List<State> set2) {
-		
-		return null;
+		HashSet<State> intersection = new HashSet<State>();
+		for (State state : set1) {
+			if (!set2.contains(state)) {
+				intersection.add(state);
+			}
+		}
+		return intersection;
+	}
+	
+	public HashSet<State> trueForAll() {
+		//All states should be returned:
+		HashSet<State> trueStates = new HashSet<State>(states);		
+		return trueStates;
 	}
 	
 	public void prettyPrint() {

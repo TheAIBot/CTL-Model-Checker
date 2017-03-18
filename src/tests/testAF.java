@@ -35,17 +35,20 @@ public class testAF {
 	public void testLongPath() {
 		Model model = new Model("a,b,c,d,e");
 		try {
-			model.addState(1, "e", "");
+			model.addState(1, "e", "5");
 			model.addState(2, "a", "1");
 			model.addState(3, "b", "2");
 			model.addState(4, "c", "3");
 			model.addState(5, "d", "4");
+			model.setStartStates("2");
 			model.initialize();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			fail();
 		}
-		//For all states except 1 ( 2,3,4,59, they all lead to a through state 2, and only a: Thus they should all be included:
+		//For all states except 1 ( 2,3,4,5), they all lead to a through state 2, 
+		//and by virtue of that, a state with label a: 
+		//Thus state 2,3,4 and 5 should be included:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("a"));
 		assertEquals(4, result.size());
 		assertTrue(result.contains(model.getState(1)));
@@ -53,7 +56,6 @@ public class testAF {
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
 	}
-	
 
 	@Test
 	public void testLongPathWithSelfloop() {
@@ -153,5 +155,4 @@ public class testAF {
 		assertTrue(result.contains(model.getState(1)));
 	}
 	
-
 }

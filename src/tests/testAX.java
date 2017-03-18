@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import check.*;
 
-public class testAO {
+public class testAX {
 	
 	@Test
 	public void testGoToVowel() {
 		Model model = Models.getTestModel1();
 		//The only state that is forced to go to a vowel, is 1:
-		HashSet<State> result = model.AO(model.getStatesWithLabel("v"));
+		HashSet<State> result = model.AX(model.getStatesWithLabel("v"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
 	}
@@ -25,7 +25,7 @@ public class testAO {
 	public void testGoToConsonant() {
 		Model model = Models.getTestModel1();
 		//The only states that are forced to go to consonants, are 3 and 4:
-		HashSet<State> result = model.AO(model.getStatesWithLabel("c"));
+		HashSet<State> result = model.AX(model.getStatesWithLabel("c"));
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
@@ -35,7 +35,7 @@ public class testAO {
 	public void testGoToNonexistentState() {
 		Model model = Models.getTestModel1();
 		//There are no states with label "kage", so the result should have size 0:
-		HashSet<State> result = model.AO(model.getStatesWithLabel("kage"));
+		HashSet<State> result = model.AX(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());
 	}
 	
@@ -50,7 +50,7 @@ public class testAO {
 			System.out.println(e.getMessage());
 			fail();
 		}
-		HashSet<State> result = model.AO(model.getStatesWithLabel("a"));
+		HashSet<State> result = model.AX(model.getStatesWithLabel("a"));
 		assertEquals(0, result.size());
 	}
 	
@@ -66,7 +66,7 @@ public class testAO {
 			fail();
 		}
 		//It should give itself:
-		HashSet<State> result = model.AO(model.getStatesWithLabel("a"));
+		HashSet<State> result = model.AX(model.getStatesWithLabel("a"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
 	}

@@ -12,14 +12,14 @@ public class State implements Comparable<State>{
 	public final String[] labels;
 	public final int[] edges;
 	public final HashSet<State> connectedStates = new HashSet<State>();
-
+	
 	public State(Model model, int stateNumber, String[] labels, int[] edges) {
 		this.model = model;
 		this.stateNumber = stateNumber;
 		this.labels = labels;
 		this.edges = edges;
 	}
-
+	
 	public HashSet<State> getReachableStates() {
 		HashSet<State> reachableStates = new HashSet<State>();
 		// Using breadth first, iteratively:
@@ -40,7 +40,6 @@ public class State implements Comparable<State>{
 		return reachableStates;
 	}
 	
-
 	public boolean canReachPhiLoop(HashSet<State> phi) {
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
@@ -87,24 +86,24 @@ public class State implements Comparable<State>{
 		}
 		return false;
 	}
-
+	
 	public void setNeighbors() {
 		connectedStates.clear();
 		for (int edge : edges) {
 			connectedStates.add(this.getNeighbor(edge));
 		}
 	}
-
+	
 	public void readyNeighborList() {
 		for (int edge : edges) {
 			connectedStates.add(model.stateMap.get(edge));
 		}
 	}
-
+	
 	public HashSet<State> getConnectedStates() {
 		return connectedStates;
 	}
-
+	
 	private State getNeighbor(int neighborID) {
 		State neighbor = model.stateMap.get(neighborID);
 		if (neighbor == null) {
@@ -112,7 +111,7 @@ public class State implements Comparable<State>{
 		}
 		return neighbor;
 	}
-
+	
 	public int getStateNumber() {
 		return this.stateNumber;
 	}
@@ -134,7 +133,7 @@ public class State implements Comparable<State>{
 	public int hashCode() {
 		return this.getStateNumber();
 	}
-
+	
 	public String toString() {
 		String stateAsString =  "State " + stateNumber + ":\n";
 		//Adding Labels:
@@ -157,7 +156,7 @@ public class State implements Comparable<State>{
 		stateAsString+= "\n";
 		return stateAsString;
 	}
-
+	
 	@Override
 	public int compareTo(State otherState) {
 		return ((Integer) stateNumber).compareTo(otherState.getStateNumber());
