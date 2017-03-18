@@ -85,7 +85,7 @@ public class State {
 	private State getNeighbor(int neighborID) {
 		State neighbor = model.stateMap.get(neighborID);
 		if (neighbor == null) {
-			System.out.println("Error");
+			throw new Error("Error");
 		}
 		return neighbor;
 	}

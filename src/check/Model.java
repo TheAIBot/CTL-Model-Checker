@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import sun.net.www.content.audio.x_aiff;
-
 public class Model {
-	// TODO do not delete: ask about definition of reach, and the problems with
 	// it, as discussed before. Also, whether one can assume that there are no stuck states.
-	public HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
-	public HashSet<State> states = new HashSet<State>();
+	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
+	public final HashSet<State> states = new HashSet<State>();
 	private final ArrayList<String> atomicPropositions;
-	private HashSet<State> initialStates = new HashSet<State>();
+	private final HashSet<State> initialStates = new HashSet<State>();
 
 	/**
 	 * TODO no comma as a character in the atomic propositions!
@@ -33,18 +30,23 @@ public class Model {
 	public void setStartStates(String startStateNumbersString) throws Exception {
 		String[] startStateNumbers = startStateNumbersString.split(",");
 		for (String stateNumberString : startStateNumbers) {
-			int stateNumber = 0;
-			try {
-				stateNumber = Integer.parseInt(stateNumberString);
-			} catch (Exception NumberFormatException) {
-				System.out.println(NumberFormatException.getMessage());
-				throw new Exception("The start state string must only contain integers, not: " + stateNumberString);
-			}
+			if (!isInteger(stateNumberString)) {
+				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
+			}			
+			int stateNumber = Integer.parseInt(stateNumberString);
 			if (!stateMap.containsKey(stateNumber)) {
-				throw new Exception("Error: the declared start state " + stateNumber + " does not exist");
-			} else {
-				initialStates.add(stateMap.get(stateNumber));
-			}
+				throw new Error("Error: the declared start state " + stateNumber + " does not exist");
+			}			
+			initialStates.add(stateMap.get(stateNumber));
+		}
+	}
+	
+	private boolean isInteger(String maybeInteger) {
+		try {
+			Integer.parseInt(maybeInteger);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -70,38 +72,32 @@ public class Model {
 
 	public void addState(int stateNumber, String labelString, String edgeString) throws Exception {
 		if (stateNumber < 0) {
-			throw new Exception("Error: state numbers must not be less than zero");
+			throw new Error("Error: state numbers must not be less than zero");
 		}
 		if (stateMap.containsKey(stateNumber)) {
-			throw new Exception("Error: cannot insert state " + stateNumber + " twice.");
+			throw new Error("Error: cannot insert state " + stateNumber + " twice.");
 		}
-		String[] labels = labelString.split(",");// (*) Remember to check for
+		String[] labels = labelString.split(",");//TODO (*) Remember to check for
 													// duplicates!
 		String[] edgesStrings = edgeString.split(",");
 		Arrays.sort(labels); // Just for the heck of it.
 		for (String label : labels) {
 			if (!atomicPropositions.contains(label)) {
-				throw new Exception("Error: " + label + " is not an atomic proposition.");
+				throw new Error("Error: " + label + " is not an atomic proposition.");
 			}
 		}
 		int[] edges = new int[edgesStrings.length];
-		if (edgesStrings.length  == 1 && edgesStrings[0].equals("")) {
-			//So that one can give a state no edges/transitions.
-			edges = new int[0];
-		} else {
-			for (int i = 0; i < edges.length; i++) {
-				try {
-					edges[i] = Integer.parseInt(edgesStrings[i]);
-				} catch (Exception e) {
-					throw new Exception("Error: the edges given must be integers, not: " + edgesStrings[i]);
-				}
+		for (int i = 0; i < edges.length; i++) {
+			if (!isInteger(edgesStrings[i])) {
+				throw new Error("Error: the edges given must be integers, not: " + edgesStrings[i]);
 			}
+			edges[i] = Integer.parseInt(edgesStrings[i]);
 		}
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
 		for (int i = 0; i < edges.length - 1; i++) {
 			if (edges[i] >= edges[i + 1]) {
-				throw new Exception("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
+				throw new Error("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
 			}
 		}
 		State newState = new State(this, stateNumber, labels, edges);
