@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model {
+	
 	// it, as discussed before. Also, whether one can assume that there are no stuck states.
 	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
 	public final HashSet<State> states = new HashSet<State>();
@@ -87,14 +88,18 @@ public class Model {
 			}
 		}
 		int[] edges = new int[edgesStrings.length];
-		for (int i = 0; i < edges.length; i++) {
-			if (!isInteger(edgesStrings[i])) {
-				throw new Error("Error: the edges given must be integers, not: " + edgesStrings[i]);
+		if (!(edges.length == 1 && edgesStrings[0].equals(""))) {
+			//If it has edges, then:
+			for (int i = 0; i < edges.length; i++) {
+				if (!isInteger(edgesStrings[i])) {
+					throw new Error("Error: the edges given must be integers, not: " + edgesStrings[i]);
+				}
+				edges[i] = Integer.parseInt(edgesStrings[i]);
 			}
-			edges[i] = Integer.parseInt(edgesStrings[i]);
 		}
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
+		
 		for (int i = 0; i < edges.length - 1; i++) {
 			if (edges[i] >= edges[i + 1]) {
 				throw new Error("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
