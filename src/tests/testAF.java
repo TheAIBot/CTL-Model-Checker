@@ -105,36 +105,17 @@ public class testAF {
 		
 		model.addState(1, "e", "");
 		model.addState(2, "a", "1");
-		model.addState(3, "b", "2");
-		model.addState(4, "c", "3,4");
+		model.addState(3, "b", "");
+		model.addState(4, "c", "2,3");
 		model.addState(5, "d", "4");
 		model.initialize();
 		
 		//For 1, 2 and 3 they will all eventually end up in state 1 and thus e.
 		HashSet<State> result = model.AF(model.getStatesWithLabel("e"));
-		assertEquals(3, result.size());
+		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
-		assertTrue(result.contains(model.getState(3)));
 	}
-	
-	@Test
-	public void testLongPathWithNormalLoop() {
-		Model model = new Model("a,b,c,d,e");
-		try {
-			model.addState(1, "e", "");
-			model.addState(2, "a", "1");
-			model.addState(3, "b", "2");
-			model.addState(4, "c", "3,4");
-			model.addState(5, "d", "4");
-			model.initialize();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			fail();
-		}
-		fail();
-	}
-
 	@Test
 	public void testGoToNonexistentState() {
 		Model model = Models.getTestModel1();
