@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-public class State {
+public class State implements Comparable<State>{
 	private final Model model;
 	private final int stateNumber;
 	public final String[] labels;
@@ -133,5 +133,33 @@ public class State {
 	@Override
 	public int hashCode() {
 		return this.getStateNumber();
+	}
+
+	public String toString() {
+		String stateAsString =  "State " + stateNumber + ":\n";
+		//Adding Labels:
+		stateAsString = stateAsString + "Labels: ";
+		for (int i = 0; i < labels.length - 1; i++) {
+			stateAsString += labels[i] + ", ";
+		}
+		if (labels.length > 0) {
+			stateAsString += labels[labels.length - 1];
+		}
+		stateAsString += "\n";
+		//Adding edges/transitions:
+		stateAsString += "Edges/transitions: ";
+		for (int i = 0; i < edges.length - 1; i++) {
+			stateAsString += edges[i] + ", ";
+		}
+		if (edges.length > 0) {
+			stateAsString += edges[edges.length - 1];
+		}		
+		stateAsString+= "\n";
+		return stateAsString;
+	}
+
+	@Override
+	public int compareTo(State otherState) {
+		return ((Integer) stateNumber).compareTo(otherState.getStateNumber());
 	}
 }

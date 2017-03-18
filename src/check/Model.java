@@ -1,6 +1,7 @@
 package check;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -205,7 +206,24 @@ public class Model {
 	}
 	
 	public HashSet<State> intersectionOf(HashSet<State> set1, List<State> set2) {
+		
 		return null;
 	}
 	
+	public void prettyPrint() {
+		//Print all the information about the states out: 
+		//An arraylist so the states can be sorted after state numbers:
+		//TODO test this(*)
+		ArrayList<State> stateList = new ArrayList<State>(states);
+		System.out.println("Printing the model: \n");
+		
+		System.out.println("Number of states: " + stateList.size() + "\n");
+		
+		System.out.println("Atomic propositions: " + atomicPropositions.toString() + "\n");
+		
+		Collections.sort(stateList);
+		for (int i = 0; i < stateList.size(); i++) {
+			System.out.println(stateList.get(i).toString());			
+		}
+	}
 }
