@@ -183,5 +183,4 @@ public class testEX {
 		assertEquals(1, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(2)));
 	}
-
 }
