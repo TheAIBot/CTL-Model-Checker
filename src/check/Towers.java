@@ -8,8 +8,8 @@ public class Towers {
 		model.addState(3, "c", "3");
 		model.addState(4, "c", "4");
 		model.setStartStates("1,2,3,4");
+		model.checkIsModelValid();
 		System.out.println("Have no fear, the model is here!");
-		System.out.println("Answer the model is valid: " + model.isModelValid() + "!");
 	}
 	
 	

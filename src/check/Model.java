@@ -51,23 +51,21 @@ public class Model {
 		}
 	}
 
-	public boolean isModelValid() {
+	public void checkIsModelValid() {
 		for (State state : states) {
 			for (int edge : state.edges) {
 				if (!stateMap.containsKey(edge)) {
-					System.out.println("Model is not valid: state " + edge + " does not exist");
-					return false;
+					throw new Error("Model is not valid: state " + edge + " does not exist");
 				}
 			}
 		}
-		return true;
 	}
 
 	public void initialize() {
-		if (isModelValid()) {
-			for (State state : states) {
-				state.readyNeighborList();
-			}
+		checkIsModelValid();
+		//If it is valid:
+		for (State state : states) {
+			state.readyNeighborList();
 		}
 	}
 
@@ -96,7 +94,7 @@ public class Model {
 				}
 				edges[i] = Integer.parseInt(edgesStrings[i]);
 			}
-		}
+		} else edges = new int[0];
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
 		
