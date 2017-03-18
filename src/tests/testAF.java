@@ -15,7 +15,7 @@ public class testAF {
 
 	@Test
 	public void testGoToVowel() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//There are no states that for all paths only will go to a vowel:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("v"));
 		assertEquals(0, result.size());
@@ -23,7 +23,7 @@ public class testAF {
 	
 	@Test
 	public void testGoToConsonant() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//Only the nodes with the consonant label, will be forced to go to a node with a consonant label:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("c"));
 		assertEquals(2, result.size());
@@ -112,7 +112,7 @@ public class testAF {
 
 	@Test
 	public void testGoToNonexistentState() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//There are no states with label "kage", so the result should have size 0:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());

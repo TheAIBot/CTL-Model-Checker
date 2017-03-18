@@ -14,7 +14,7 @@ public class testOperators {
 	
 	@Test
 	public void testComplimentWithDiffernentStates() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//A set of states that the model doesen't contain:
 		HashSet<State> differentSet = new HashSet<State>();
 		differentSet.add(new State(model, 5, new String[0], new int[0]));
@@ -28,7 +28,7 @@ public class testOperators {
 	
 	@Test
 	public void testComplimentWithEmptySet() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		HashSet<State> result = model.complementOf(model.getStates(), new HashSet<State>());
 		assertEquals(4, result.size());
 		for (State state : model.getStates()) {

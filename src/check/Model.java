@@ -153,17 +153,16 @@ public class Model {
 		return validStates;
 	}
 
-	public HashSet<State> EX(HashSet<State> phiStates) {	
-		//TODO segmenter den, eller lav den om til flere linjer.
+	public HashSet<State> EX(HashSet<State> phiStates) {
 		return states.stream().filter(x -> x.getConnectedStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public HashSet<State> EF(HashSet<State> phiStates) {		
+	public HashSet<State> EF(HashSet<State> phiStates) {
 		return states.stream().filter(x -> x.getReachableStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public HashSet<State> EG(HashSet<State> phiStates) {		
-		return states.stream().filter(x -> x.containsPhiLoop(phiStates)).collect(Collectors.toCollection(HashSet::new));
+	public HashSet<State> EG(HashSet<State> phiStates) {
+		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) || x.canFollowPhiToStuckPhiState(phiStates)).collect(Collectors.toCollection(HashSet::new));
 	}
 
 	private boolean isSuperSet(HashSet<State> subSet, HashSet<State> superSet) {

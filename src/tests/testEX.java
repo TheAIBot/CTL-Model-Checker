@@ -14,14 +14,12 @@ public class testEX {
 	
 	@Test
 	public void test1() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		
 		
 		HashSet<State> phiStates = new HashSet<State>();
-		phiStates.add(model.getState(1));
 		HashSet<State> acceptedStates = model.EX(phiStates);
-		assertEquals(1, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertEquals(0, acceptedStates.size());
 		
 		
 		phiStates.clear();
@@ -169,18 +167,46 @@ public class testEX {
 	
 	@Test
 	public void test2() {
-		Model model = new Model("v,c");
-		model.addState(1, "v", "");
-		model.addState(2, "v", "1,3");
-		model.addState(3, "c", "2,4");
-		model.addState(4, "c", "");
-		model.setStartStates("1,2,3,4");
-		model.initialize();
+		Model model = Models.getTestModel2();
+		
 		
 		HashSet<State> phiStates = new HashSet<State>();
-		phiStates.add(model.getState(1));
 		HashSet<State> acceptedStates = model.EX(phiStates);
+		assertEquals(0, acceptedStates.size());
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(1));
+		acceptedStates = model.EX(phiStates);
 		assertEquals(1, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(2)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(2));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(1, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(3));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(1, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(2)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(4));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(2, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertTrue(acceptedStates.contains(model.getState(5)));
+		
+		
+		phiStates.clear();
+		phiStates.add(model.getState(5));
+		acceptedStates = model.EX(phiStates);
+		assertEquals(0, acceptedStates.size());
 	}
 }
