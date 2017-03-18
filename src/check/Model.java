@@ -141,7 +141,7 @@ public class Model {
 		return validStates;
 	}
 
-	public HashSet<State> AO(HashSet<State> phiStates) {
+	public HashSet<State> AX(HashSet<State> phiStates) {
 		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
