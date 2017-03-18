@@ -24,19 +24,19 @@ public class State {
 		HashSet<State> reachableStates = new HashSet<State>();
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
-		HashSet<Integer> hasSeen = new HashSet<Integer>();
+		//Starting from this state:
 		statesToVisit.add(this);
+		reachableStates.add(this);
+		
 		while (!statesToVisit.isEmpty()) {
 			State currentState = statesToVisit.poll();
 			for (State state : currentState.getConnectedStates()) {
-				if (!hasSeen.contains(state.getStateNumber())) {
+				if (!reachableStates.contains(state)) {
 					statesToVisit.add(state);
-					hasSeen.add(state.getStateNumber());
 					reachableStates.add(state);
 				}
 			}
 		}
-
 		return reachableStates;
 	}
 	

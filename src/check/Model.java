@@ -30,18 +30,20 @@ public class Model {
 		atomicPropositions.sort(Comparator.naturalOrder());
 	}
 
-	public void setStartStates(String startStateNumbersString) {
+	public void setStartStates(String startStateNumbersString) throws Exception {
 		String[] startStateNumbers = startStateNumbersString.split(",");
 		for (String stateNumberString : startStateNumbers) {
+			int stateNumber = 0;
 			try {
-				int stateNumber = Integer.parseInt(stateNumberString);
-				if (!stateMap.containsKey(stateNumber)) {
-					System.out.println("Error: the declared start state " + stateNumber + " does not exist");
-				} else {
-					initialStates.add(stateMap.get(stateNumber));
-				}
-			} catch (Exception e) {
-				System.out.println("The start state string must only contain integers, not: " + stateNumberString);
+				stateNumber = Integer.parseInt(stateNumberString);
+			} catch (Exception NumberFormatException) {
+				System.out.println(NumberFormatException.getMessage());
+				throw new Exception("The start state string must only contain integers, not: " + stateNumberString);
+			}
+			if (!stateMap.containsKey(stateNumber)) {
+				throw new Exception("Error: the declared start state " + stateNumber + " does not exist");
+			} else {
+				initialStates.add(stateMap.get(stateNumber));
 			}
 		}
 	}
@@ -66,12 +68,12 @@ public class Model {
 		}
 	}
 
-	public void addState(int stateNumber, String labelString, String edgeString) {
+	public void addState(int stateNumber, String labelString, String edgeString) throws Exception {
 		if (stateNumber < 0) {
-			System.out.println("Error: state numbers must not be less than zero");
+			throw new Exception("Error: state numbers must not be less than zero");
 		}
 		if (stateMap.containsKey(stateNumber)) {
-			System.out.println("Error: cannot insert state " + stateNumber + " twice.");
+			throw new Exception("Error: cannot insert state " + stateNumber + " twice.");
 		}
 		String[] labels = labelString.split(",");// (*) Remember to check for
 													// duplicates!
@@ -79,24 +81,27 @@ public class Model {
 		Arrays.sort(labels); // Just for the heck of it.
 		for (String label : labels) {
 			if (!atomicPropositions.contains(label)) {
-				System.out.println("Error: " + label + " is not an atomic proposition.");
+				throw new Exception("Error: " + label + " is not an atomic proposition.");
 			}
 		}
 		int[] edges = new int[edgesStrings.length];
-		for (int i = 0; i < edges.length; i++) {
-			try {
-				edges[i] = Integer.parseInt(edgesStrings[i]);
-			} catch (Exception e) {
-				System.out.println("Error: the edges given must be integers, not: " + edgesStrings[i]);
-				return;
+		if (edgesStrings.length  == 1 && edgesStrings[0].equals("")) {
+			//So that one can give a state no edges/transitions.
+			edges = new int[0];
+		} else {
+			for (int i = 0; i < edges.length; i++) {
+				try {
+					edges[i] = Integer.parseInt(edgesStrings[i]);
+				} catch (Exception e) {
+					throw new Exception("Error: the edges given must be integers, not: " + edgesStrings[i]);
+				}
 			}
 		}
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
 		for (int i = 0; i < edges.length - 1; i++) {
 			if (edges[i] >= edges[i + 1]) {
-				System.out.println("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
-				return;
+				throw new Exception("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
 			}
 		}
 		State newState = new State(this, stateNumber, labels, edges);
@@ -104,7 +109,20 @@ public class Model {
 		states.add(newState);
 	}
 	
-	public HashSet<State> AllDiamondsAreUnbreakable(HashSet<State> phiStates){
+	public HashSet<State> getStatesWithLabel(String labelToFind) {
+		HashSet<State> result = new HashSet<State>();
+		for (State state : states) {
+			for (String label : state.labels) {
+				if (label.equals(labelToFind)) {
+					result.add(state);
+					break;
+				}
+			}
+		}
+		return result;
+	}
+	
+	public HashSet<State> AF(HashSet<State> phiStates){
 		//TODO will not work in the case that there exists stuck states. 
 		HashSet<State> allButPhiStates = complementOf(states, phiStates);
 		HashSet<State> notValidStates = EG(allButPhiStates);
@@ -113,9 +131,11 @@ public class Model {
 	}
 	
 	public HashSet<State> AG(HashSet<State> phiStates) {
+		//Check om korrekt.
 		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (isSuperSet(state.getReachableStates(),phiStates)) {
+			if (isSuperSet(state.getReachableStates(),phiStates)) { 
+				//TODO discuss with the professor, if this is correct, even when not all states have transitions.
 				validStates.add(state);
 			}
 		}
@@ -126,14 +146,15 @@ public class Model {
 		HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
-				isSuperSet(new HashSet<State>(state.connectedStates),validStates)) {
+				isSuperSet(state.connectedStates,phiStates)) {
 				validStates.add(state);
 			}
 		}
 		return validStates;
 	}
 
-	public HashSet<State> EX(HashSet<State> phiStates) {		
+	public HashSet<State> EX(HashSet<State> phiStates) {	
+		//TODO segmenter den, eller lav den om til flere linjer.
 		return states.stream().filter(x -> x.getConnectedStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
@@ -172,7 +193,7 @@ public class Model {
 	public HashSet<State> complementOf(HashSet<State> initialStates, HashSet<State> statesToSubstract) {
 		HashSet<State> complement = new HashSet<State>();
 		for (State state : initialStates) {
-			if (!statesToSubstract.contains(state.getStateNumber())) {
+			if (!statesToSubstract.contains(state)) {
 				complement.add(state);
 			}
 		}	
