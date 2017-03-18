@@ -53,8 +53,7 @@ public class testEG {
 		phiStates.add(model.getState(3));
 		phiStates.add(model.getState(4));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(3, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertEquals(2, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
 	}
@@ -66,27 +65,22 @@ public class testEG {
 		HashSet<State> phiStates = new HashSet<State>();
 		phiStates.add(model.getState(1));
 		HashSet<State> acceptedStates = model.EG(phiStates);
-		assertEquals(2, acceptedStates.size());
+		assertEquals(1, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
-		assertTrue(acceptedStates.contains(model.getState(2)));
 		
 		phiStates.clear();
 		phiStates.add(model.getState(4));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(3, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(3)));
+		assertEquals(1, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(4)));
-		assertTrue(acceptedStates.contains(model.getState(5)));
 		
 		phiStates.clear();
 		phiStates.add(model.getState(3));
 		phiStates.add(model.getState(4));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(4, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(2)));
+		assertEquals(2, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
-		assertTrue(acceptedStates.contains(model.getState(5)));
 		
 		phiStates.clear();
 		phiStates.add(model.getState(1));
@@ -94,10 +88,9 @@ public class testEG {
 		phiStates.add(model.getState(4));
 		phiStates.add(model.getState(5));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(5, acceptedStates.size());
+		assertEquals(4, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
-		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
 		assertTrue(acceptedStates.contains(model.getState(5)));
 	}
@@ -114,13 +107,12 @@ public class testEG {
 		phiStates.add(model.getState(5));
 		phiStates.add(model.getState(8));
 		HashSet<State> acceptedStates = model.EG(phiStates);
-		assertEquals(7, acceptedStates.size());
+		assertEquals(6, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
 		assertTrue(acceptedStates.contains(model.getState(5)));
-		assertTrue(acceptedStates.contains(model.getState(6)));
 		assertTrue(acceptedStates.contains(model.getState(8)));
 		
 		
@@ -132,14 +124,12 @@ public class testEG {
 		phiStates.add(model.getState(6));
 		phiStates.add(model.getState(9));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(8, acceptedStates.size());
+		assertEquals(6, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		assertTrue(acceptedStates.contains(model.getState(3)));
-		assertTrue(acceptedStates.contains(model.getState(4)));
 		assertTrue(acceptedStates.contains(model.getState(5)));
 		assertTrue(acceptedStates.contains(model.getState(6)));
-		assertTrue(acceptedStates.contains(model.getState(7)));
 		assertTrue(acceptedStates.contains(model.getState(9)));
 		
 		phiStates.clear();
@@ -151,11 +141,10 @@ public class testEG {
 		phiStates.add(model.getState(7));
 		phiStates.add(model.getState(9));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(8, acceptedStates.size());
+		assertEquals(7, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(1)));
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		assertTrue(acceptedStates.contains(model.getState(3)));
-		assertTrue(acceptedStates.contains(model.getState(4)));
 		assertTrue(acceptedStates.contains(model.getState(5)));
 		assertTrue(acceptedStates.contains(model.getState(6)));
 		assertTrue(acceptedStates.contains(model.getState(7)));
@@ -169,12 +158,11 @@ public class testEG {
 		phiStates.add(model.getState(8));
 		phiStates.add(model.getState(9));
 		acceptedStates = model.EG(phiStates);
-		assertEquals(7, acceptedStates.size());
+		assertEquals(6, acceptedStates.size());
 		assertTrue(acceptedStates.contains(model.getState(2)));
 		assertTrue(acceptedStates.contains(model.getState(3)));
 		assertTrue(acceptedStates.contains(model.getState(4)));
 		assertTrue(acceptedStates.contains(model.getState(5)));
-		assertTrue(acceptedStates.contains(model.getState(6)));
 		assertTrue(acceptedStates.contains(model.getState(8)));
 		assertTrue(acceptedStates.contains(model.getState(9)));
 	}
