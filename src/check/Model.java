@@ -28,7 +28,7 @@ public class Model {
 		atomicPropositions.sort(Comparator.naturalOrder());
 	}
 
-	public void setStartStates(String startStateNumbersString) throws Exception {
+	public void setStartStates(String startStateNumbersString) {
 		String[] startStateNumbers = startStateNumbersString.split(",");
 		for (String stateNumberString : startStateNumbers) {
 			if (!isInteger(stateNumberString)) {
@@ -71,7 +71,7 @@ public class Model {
 		}
 	}
 
-	public void addState(int stateNumber, String labelString, String edgeString) throws Exception {
+	public void addState(int stateNumber, String labelString, String edgeString) {
 		if (stateNumber < 0) {
 			throw new Error("Error: state numbers must not be less than zero");
 		}
