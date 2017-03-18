@@ -129,13 +129,15 @@ public class Model {
 	
 	public HashSet<State> AF(HashSet<State> phiStates){
 		//TODO will not work in the case that there exists stuck states.
-		
 		//All the states coming from a path of infinite lenght:
 		HashSet<State> allButPhiStates = complementOf(states, phiStates);
+		System.out.println("All but phi states:");
 		System.out.println((new ArrayList<State>(allButPhiStates)).toString());
 		HashSet<State> notValidStates = EG(allButPhiStates);
+		System.out.println("Not valid states:");
 		System.out.println((new ArrayList<State>(notValidStates)).toString());
 		HashSet<State> validStates = complementOf(states, notValidStates);
+		System.out.println("Valid states:");
 		System.out.println((new ArrayList<State>(validStates)).toString());
 		//A finite length path:
 		//TODO (*) Make
@@ -174,7 +176,15 @@ public class Model {
 	}
 
 	public HashSet<State> EG(HashSet<State> phiStates) {
-		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) || x.canFollowPhiToStuckPhiState(phiStates)).collect(Collectors.toCollection(HashSet::new));
+		HashSet<State> result = new HashSet<State>();
+		for (State state : states) {
+			if (state.canReachPhiLoop(phiStates) || state.canFollowPhiToStuckPhiState(phiStates)) {
+				result.add(state);
+			}
+		}
+		return result;
+		/*return states.stream().filter(x -> x.canReachPhiLoop(phiStates) //s|| x.canFollowPhiToStuckPhiState(phiStates)
+				).collect(Collectors.toCollection(HashSet::new));*/
 	}
 
 	private boolean isSuperSet(HashSet<State> subSet, HashSet<State> superSet) {

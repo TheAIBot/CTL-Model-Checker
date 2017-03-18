@@ -27,7 +27,7 @@ public class State implements Comparable<State>{
 		//Starting from this state:
 		statesToVisit.add(this);
 		reachableStates.add(this);
-		
+		//TODO check for error in the case of a starting selfloop
 		while (!statesToVisit.isEmpty()) {
 			State currentState = statesToVisit.poll();
 			for (State state : currentState.getConnectedStates()) {
@@ -43,20 +43,26 @@ public class State implements Comparable<State>{
 	public boolean canReachPhiLoop(HashSet<State> phi) {
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
-		statesToVisit.addAll(this.connectedStates.stream().filter(x -> phi.contains(x)).collect(Collectors.toList()));
+		//The starting state needs to be a phi state:
+		if (!phi.contains(this)) {
+			return false;
+		}		
+		//TODO check for errors in the case of a starting self loop.
 		
-		HashSet<Integer> hasSeen = new HashSet<Integer>();
-		hasSeen.add(this.getStateNumber());
+		statesToVisit.add(this); //Starting from this state.
+		HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
+		hasSeen.add(this);
 		
 		while (!statesToVisit.isEmpty()) {
 			State currentState = statesToVisit.poll();
-			if (hasSeen.contains(currentState.getStateNumber())) {
-				return true;
-			}
-			for (State state : currentState.getConnectedStates()) {
-				if (phi.contains(state)) {
-					statesToVisit.add(state);
-					hasSeen.add(state.getStateNumber());
+			for (State neighbor : currentState.getConnectedStates()) {
+				if (phi.contains(neighbor)) {
+					if (hasSeen.contains(neighbor)) {//If it has already been seen and is a phi state, then there is a loop!
+						return true;
+					} else {//Else we continue:
+						statesToVisit.add(neighbor);
+						hasSeen.add(neighbor);						
+					}
 				}
 			}
 		}
@@ -65,22 +71,28 @@ public class State implements Comparable<State>{
 	}
 	
 	public boolean canFollowPhiToStuckPhiState(HashSet<State> phi) {
-		HashSet<State> reachableStates = new HashSet<State>();
 		// Using breadth first, iteratively:
 		Queue<State> statesToVisit = new LinkedList<State>();
-		statesToVisit.add(this);
-		statesToVisit.addAll(this.connectedStates.stream().filter(x -> phi.contains(x)).collect(Collectors.toList()));
-		reachableStates.add(this);
+		//The starting state needs to be a phi state:
+		if (!phi.contains(this)) {
+			return false;
+		}		
+		//TODO check for errors in the case of a starting self loop.		
+		statesToVisit.add(this); //Starting from this state.
+		HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
+		hasSeen.add(this);
 		
 		while (!statesToVisit.isEmpty()) {
 			State currentState = statesToVisit.poll();
-			if (currentState.getConnectedStates().size() == 0 && phi.contains(currentState)) {
+			//If it has no neighbors/possible transitions, victory has been attained, 
+			//as it is also a phi state.
+			if (currentState.getConnectedStates().size() == 0) {
 				return true;
 			}			
 			for (State state : currentState.getConnectedStates()) {
-				if (!reachableStates.contains(state) && phi.contains(state)) {
+				if (!hasSeen.contains(state) && phi.contains(state)) {
 					statesToVisit.add(state);
-					reachableStates.add(state);
+					hasSeen.add(state);
 				}
 			}
 		}

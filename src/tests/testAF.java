@@ -16,15 +16,17 @@ public class testAF {
 	@Test
 	public void testGoToVowel() {
 		Model model = Models.getTestModel1();
-		//There are no states that for all paths only will go to a vowel:
+		//Only for the two vowel states will all paths beginning in them eventually meet a vowel state.
 		HashSet<State> result = model.AF(model.getStatesWithLabel("v"));
-		assertEquals(0, result.size());
+		assertEquals(2, result.size());
+		assertTrue(result.contains(model.getState(1)));
+		assertTrue(result.contains(model.getState(2)));
 	}
 	
 	@Test
 	public void testGoToConsonant() {
 		Model model = Models.getTestModel1();
-		//Only the nodes with the consonant label, will be forced to go to a node with a consonant label:
+		//Only the nodes with the consonant label, will be forced to go to a node with a consonant label eventually:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("c"));
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(3)));
@@ -34,27 +36,45 @@ public class testAF {
 	@Test
 	public void testLongPath() {
 		Model model = new Model("a,b,c,d,e");
-		try {
-			model.addState(1, "e", "5");
-			model.addState(2, "a", "1");
-			model.addState(3, "b", "2");
-			model.addState(4, "c", "3");
-			model.addState(5, "d", "4");
-			model.setStartStates("2");
-			model.initialize();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			fail();
-		}
+		
+		model.addState(1, "e", "");
+		model.addState(2, "a", "1");
+		model.addState(3, "b", "2");
+		model.addState(4, "c", "3");
+		model.addState(5, "d", "4");
+		model.setStartStates("2");
+		model.initialize();
+		
 		//For all states except 1 ( 2,3,4,5), they all lead to a through state 2, 
 		//and by virtue of that, a state with label a: 
 		//Thus state 2,3,4 and 5 should be included:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("a"));
 		assertEquals(4, result.size());
+		assertTrue(result.contains(model.getState(2)));
+		assertTrue(result.contains(model.getState(3)));
+		assertTrue(result.contains(model.getState(4)));
+		assertTrue(result.contains(model.getState(5)));
+	}
+	
+	@Test
+	public void testLongCycle() {
+		Model model = new Model("a,b,c,d,e");
+		
+		model.addState(1, "e", "5");
+		model.addState(2, "a", "1");
+		model.addState(3, "b", "2");
+		model.addState(4, "c", "3");
+		model.addState(5, "d", "4");
+		model.setStartStates("2");
+		model.initialize();
+		
+		HashSet<State> result = model.AF(model.getStatesWithLabel("a"));
+		assertEquals(5, result.size());
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
+		assertTrue(result.contains(model.getState(5)));
 	}
 
 	@Test
@@ -71,28 +91,31 @@ public class testAF {
 			System.out.println(e.getMessage());
 			fail();
 		}
-		//For 1,2, they will both lead to 4
-		HashSet<State> result = model.AF(model.getStatesWithLabel("c"));
-		assertEquals(2, result.size());
+		//For 1, 2 and 3 they will all eventually end up in state 1 and thus e.
+		HashSet<State> result = model.AF(model.getStatesWithLabel("e"));
+		assertEquals(3, result.size());
+		assertTrue(result.contains(model.getState(1)));
+		assertTrue(result.contains(model.getState(2)));
 		assertTrue(result.contains(model.getState(3)));
-		assertTrue(result.contains(model.getState(4)));
 	}
 	
 	@Test
 	public void testLongPathWithBranch() {
 		Model model = new Model("a,b,c,d,e");
-		try {
-			model.addState(1, "e", "");
-			model.addState(2, "a", "1");
-			model.addState(3, "b", "2");
-			model.addState(4, "c", "3,4");
-			model.addState(5, "d", "4");
-			model.initialize();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			fail();
-		}
-		fail();
+		
+		model.addState(1, "e", "");
+		model.addState(2, "a", "1");
+		model.addState(3, "b", "2");
+		model.addState(4, "c", "3,4");
+		model.addState(5, "d", "4");
+		model.initialize();
+		
+		//For 1, 2 and 3 they will all eventually end up in state 1 and thus e.
+		HashSet<State> result = model.AF(model.getStatesWithLabel("e"));
+		assertEquals(3, result.size());
+		assertTrue(result.contains(model.getState(1)));
+		assertTrue(result.contains(model.getState(2)));
+		assertTrue(result.contains(model.getState(3)));
 	}
 	
 	@Test
