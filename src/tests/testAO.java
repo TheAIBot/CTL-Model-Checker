@@ -14,7 +14,7 @@ public class testAO {
 	
 	@Test
 	public void testGoToVowel() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//The only state that is forced to go to a vowel, is 1:
 		HashSet<State> result = model.AO(model.getStatesWithLabel("v"));
 		assertEquals(1, result.size());
@@ -23,7 +23,7 @@ public class testAO {
 	
 	@Test
 	public void testGoToConsonant() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//The only states that are forced to go to consonants, are 3 and 4:
 		HashSet<State> result = model.AO(model.getStatesWithLabel("c"));
 		assertEquals(2, result.size());
@@ -33,7 +33,7 @@ public class testAO {
 	
 	@Test
 	public void testGoToNonexistentState() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//There are no states with label "kage", so the result should have size 0:
 		HashSet<State> result = model.AO(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());

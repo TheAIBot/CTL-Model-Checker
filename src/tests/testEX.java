@@ -14,7 +14,7 @@ public class testEX {
 	
 	@Test
 	public void test1() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		
 		
 		HashSet<State> phiStates = new HashSet<State>();
@@ -167,14 +167,7 @@ public class testEX {
 	
 	@Test
 	public void test2() {
-		Model model = new Model("v,c");
-		model.addState(1, "v", "");
-		model.addState(2, "v", "1,3");
-		model.addState(3, "c", "2,4");
-		model.addState(4, "c", "");
-		model.addState(5, "c", "4");
-		model.setStartStates("1,2,3,4,5");
-		model.initialize();
+		Model model = Models.getTestModel2();
 		
 		
 		HashSet<State> phiStates = new HashSet<State>();
@@ -212,6 +205,7 @@ public class testEX {
 		
 		
 		phiStates.clear();
+		phiStates.add(model.getState(5));
 		acceptedStates = model.EX(phiStates);
 		assertEquals(0, acceptedStates.size());
 	}

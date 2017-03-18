@@ -17,7 +17,7 @@ public class testAG {
 
 	@Test
 	public void testGoToVowel() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//There are no states where all paths from them will make them stay on a vowel.
 		HashSet<State> result = model.AG(model.getStatesWithLabel("v"));
 		assertEquals(0, result.size());
@@ -25,7 +25,7 @@ public class testAG {
 	
 	@Test
 	public void testGoToConsonant() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//Only state 3 and 4 will for all paths stay on a consonant.
 		HashSet<State> result = model.AG(model.getStatesWithLabel("c"));
 		assertEquals(2, result.size());
@@ -35,7 +35,7 @@ public class testAG {
 
 	@Test
 	public void testGoToNonexistentState() {
-		Model model = Towers.getTestModel();
+		Model model = Models.getTestModel1();
 		//There are no states with label "kage", so the result should be of size 0:
 		HashSet<State> result = model.AG(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());
