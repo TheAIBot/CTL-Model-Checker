@@ -161,7 +161,7 @@ public class State implements Comparable<State>{
 		sBuilder.append("\n");
 		
 		//write all transitions
-		sBuilder.append("Edges/transitions ");
+		sBuilder.append("Transitions ");
 		sBuilder.append(Arrays.toString(edges));
 		sBuilder.append("\n");
 		
