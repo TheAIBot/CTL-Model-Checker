@@ -131,14 +131,8 @@ public class Model {
 		//TODO will not work in the case that there exists stuck states.
 		//All the states coming from a path of infinite lenght:
 		HashSet<State> allButPhiStates = complementOf(states, phiStates);
-		System.out.println("All but phi states:");
-		System.out.println((new ArrayList<State>(allButPhiStates)).toString());
-		HashSet<State> notValidStates = EG(allButPhiStates);
-		System.out.println("Not valid states:");
-		System.out.println((new ArrayList<State>(notValidStates)).toString());
+		HashSet<State> notValidStates = EG(allButPhiStates);//TODO check if this is correct.
 		HashSet<State> validStates = complementOf(states, notValidStates);
-		System.out.println("Valid states:");
-		System.out.println((new ArrayList<State>(validStates)).toString());
 		//A finite length path:
 		//TODO (*) Make
 		return validStates;

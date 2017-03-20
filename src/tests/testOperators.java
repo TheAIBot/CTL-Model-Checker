@@ -36,4 +36,6 @@ public class testOperators {
 		}
 	}
 	
+	//TODO add rest of operators tests.
+	
 }
