@@ -19,7 +19,7 @@ public class testOperators {
 		HashSet<State> differentSet = new HashSet<State>();
 		differentSet.add(new State(model, 5, new String[0], new int[0]));
 		differentSet.add(new State(model, 6, new String[0], new int[0]));
-		HashSet<State> result = model.complementOf(model.getStates(),differentSet);
+		HashSet<State> result = model.complementOf(differentSet);
 		assertEquals(4, result.size());
 		for (State state : model.getStates()) {
 			assertTrue(result.contains(state));
@@ -29,7 +29,7 @@ public class testOperators {
 	@Test
 	public void testComplimentWithEmptySet() {
 		Model model = Models.getTestModel1();
-		HashSet<State> result = model.complementOf(model.getStates(), new HashSet<State>());
+		HashSet<State> result = model.complementOf(new HashSet<State>());
 		assertEquals(4, result.size());
 		for (State state : model.getStates()) {
 			assertTrue(result.contains(state));

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.sun.istack.internal.FinalArrayList;
-
 public class Model {
 	
 	// it, as discussed before. Also, whether one can assume that there are no stuck states.
@@ -134,13 +132,13 @@ public class Model {
 	public HashSet<State> AF(final HashSet<State> phiStates){
 		//TODO will not work in the case that there exists stuck states.
 		//All the states coming from a path of infinite lenght:
-		final HashSet<State> allButPhiStates = complementOf(states, phiStates);
+		final HashSet<State> allButPhiStates = complementOf(phiStates);
 		//System.out.println("All but phi states:");
 		//System.out.println((new ArrayList<State>(allButPhiStates)).toString());
 		final HashSet<State> notValidStates = EG(allButPhiStates);
 		//System.out.println("Not valid states:");
 		//System.out.println((new ArrayList<State>(notValidStates)).toString());
-		final HashSet<State> validStates = complementOf(states, notValidStates);
+		final HashSet<State> validStates = complementOf(notValidStates);
 		//System.out.println("Valid states:");
 		//System.out.println((new ArrayList<State>(validStates)).toString());
 		//A finite length path:
@@ -205,14 +203,8 @@ public class Model {
 		return stateMap.get(stateNumber);
 	}
 	
-	public HashSet<State> complementOf(final HashSet<State> initialStates, final HashSet<State> statesToSubstract) {
-		final HashSet<State> complement = new HashSet<State>();
-		for (State state : initialStates) {
-			if (!statesToSubstract.contains(state)) {
-				complement.add(state);
-			}
-		}	
-		return complement;
+	public HashSet<State> complementOf(final HashSet<State> statesToSubstract) {
+		return states.stream().filter(x -> !statesToSubstract.contains(x)).collect(Collectors.toCollection(HashSet::new));
 	}
 	
 	public HashSet<State> unionOf(final HashSet<State> set1, final List<State> set2) {
@@ -224,7 +216,7 @@ public class Model {
 	public HashSet<State> intersectionOf(final HashSet<State> set1, final List<State> set2) {
 		final HashSet<State> intersection = new HashSet<State>();
 		for (State state : set1) {
-			if (!set2.contains(state)) {
+			if (set2.contains(state)) {
 				intersection.add(state);
 			}
 		}
