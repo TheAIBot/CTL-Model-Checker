@@ -23,20 +23,20 @@ public class Model {
 	 * 
 	 * @param atomicPropositions
 	 */
-	public Model(String atomicPropositionsString) {
-		Set<String> hs = new HashSet<String>();
+	public Model(final String atomicPropositionsString) {
+		final Set<String> hs = new HashSet<String>();
 		hs.addAll(Arrays.asList(atomicPropositionsString.split(",")));
 		atomicPropositions = new ArrayList<String>(hs);
 		atomicPropositions.sort(Comparator.naturalOrder());
 	}
 
 	public void setStartStates(String startStateNumbersString) {
-		String[] startStateNumbers = startStateNumbersString.split(",");
+		final String[] startStateNumbers = startStateNumbersString.split(",");
 		for (String stateNumberString : startStateNumbers) {
 			if (!isInteger(stateNumberString)) {
 				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
 			}			
-			int stateNumber = Integer.parseInt(stateNumberString);
+			final int stateNumber = Integer.parseInt(stateNumberString);
 			if (!stateMap.containsKey(stateNumber)) {
 				throw new Error("Error: the declared start state " + stateNumber + " does not exist");
 			}			
@@ -44,7 +44,7 @@ public class Model {
 		}
 	}
 	
-	private boolean isInteger(String maybeInteger) {
+	private boolean isInteger(final String maybeInteger) {
 		try {
 			Integer.parseInt(maybeInteger);
 			return true;
@@ -72,7 +72,7 @@ public class Model {
 		hasBeenInitialized = true;
 	}
 
-	public void addState(int stateNumber, String labelString, String edgeString) {
+	public void addState(final int stateNumber, final String labelString, final String edgeString) {
 		if (hasBeenInitialized) {
 			throw new Error("Error: one must not add a new state to the transition system after it has been initialized.");
 		}
@@ -82,15 +82,15 @@ public class Model {
 		if (stateMap.containsKey(stateNumber)) {
 			throw new Error("Error: cannot insert state " + stateNumber + " twice.");
 		}
-		String[] labels = labelString.split(",");//TODO (*) Remember to check for
-													// duplicates!
-		String[] edgesStrings = edgeString.split(",");
+		final String[] labels = labelString.split(",");//TODO (*) Remember to check for duplicates!
 		Arrays.sort(labels); // Just for the heck of it.
 		for (String label : labels) {
 			if (!atomicPropositions.contains(label)) {
 				throw new Error("Error: " + label + " is not an atomic proposition.");
 			}
 		}
+		
+		final String[] edgesStrings = edgeString.split(",");
 		int[] edges = new int[edgesStrings.length];
 		if (!(edges.length == 1 && edgesStrings[0].equals(""))) {
 			//If it has edges, then:
@@ -100,7 +100,9 @@ public class Model {
 				}
 				edges[i] = Integer.parseInt(edgesStrings[i]);
 			}
-		} else edges = new int[0];
+		} else {
+			edges = new int[0];
+		}
 		Arrays.sort(edges);
 		// It must not contain duplicates (and it is sorted):
 		
@@ -115,7 +117,7 @@ public class Model {
 	}
 	
 	public HashSet<State> getStatesWithLabel(String labelToFind) {
-		HashSet<State> result = new HashSet<State>();
+		final HashSet<State> result = new HashSet<State>();
 		for (State state : states) {
 			for (String label : state.labels) {
 				if (label.equals(labelToFind)) {
@@ -127,20 +129,20 @@ public class Model {
 		return result;
 	}
 	
-	public HashSet<State> AF(HashSet<State> phiStates){
+	public HashSet<State> AF(final HashSet<State> phiStates){
 		//TODO will not work in the case that there exists stuck states.
 		//All the states coming from a path of infinite lenght:
-		HashSet<State> allButPhiStates = complementOf(states, phiStates);
-		HashSet<State> notValidStates = EG(allButPhiStates);//TODO check if this is correct.
-		HashSet<State> validStates = complementOf(states, notValidStates);
+		final HashSet<State> allButPhiStates = complementOf(phiStates);
+		final HashSet<State> notValidStates = EG(allButPhiStates);
+		final HashSet<State> validStates = complementOf(notValidStates);
 		//A finite length path:
 		//TODO (*) Make
 		return validStates;
 	}
 	
-	public HashSet<State> AG(HashSet<State> phiStates) {
-		//Check om korrekt.
-		HashSet<State> validStates = new HashSet<State>();
+	public HashSet<State> AG(final HashSet<State> phiStates) {
+		//(*)Check om korrekt.
+		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (isSuperSet(state.getReachableStates(),phiStates)) { 
 				//TODO discuss with the professor, if this is correct, even when not all states have transitions.
@@ -150,8 +152,8 @@ public class Model {
 		return validStates;
 	}
 
-	public HashSet<State> AX(HashSet<State> phiStates) {
-		HashSet<State> validStates = new HashSet<State>();
+	public HashSet<State> AX(final HashSet<State> phiStates) {
+		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
 				isSuperSet(state.connectedStates,phiStates)) {
@@ -161,27 +163,19 @@ public class Model {
 		return validStates;
 	}
 
-	public HashSet<State> EX(HashSet<State> phiStates) {
+	public HashSet<State> EX(final HashSet<State> phiStates) {
 		return states.stream().filter(x -> x.getConnectedStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public HashSet<State> EF(HashSet<State> phiStates) {
+	public HashSet<State> EF(final HashSet<State> phiStates) {
 		return states.stream().filter(x -> x.getReachableStates().stream().anyMatch(y -> phiStates.contains(y))).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	public HashSet<State> EG(HashSet<State> phiStates) {
-		HashSet<State> result = new HashSet<State>();
-		for (State state : states) {
-			if (state.canReachPhiLoop(phiStates) || state.canFollowPhiToStuckPhiState(phiStates)) {
-				result.add(state);
-			}
-		}
-		return result;
-		/*return states.stream().filter(x -> x.canReachPhiLoop(phiStates) //s|| x.canFollowPhiToStuckPhiState(phiStates)
-				).collect(Collectors.toCollection(HashSet::new));*/
+	public HashSet<State> EG(final HashSet<State> phiStates) {
+		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) || x.canFollowPhiToStuckPhiState(phiStates)).collect(Collectors.toCollection(HashSet::new));
 	}
 
-	private boolean isSuperSet(HashSet<State> subSet, HashSet<State> superSet) {
+	private boolean isSuperSet(final HashSet<State> subSet, final HashSet<State> superSet) {
 		for (State state : subSet) {
 			if (!superSet.contains(state)) {
 				return false;
@@ -191,40 +185,32 @@ public class Model {
 
 	}
 	
-	public boolean checkIncludesInitialStates(HashSet<State> superSet) {
-		if (isSuperSet(initialStates, superSet)) {
-			return true;
-		} else return false;
+	public boolean checkIncludesInitialStates(final HashSet<State> superSet) {
+		return isSuperSet(initialStates, superSet);
 	}
 
 	public HashSet<State> getStates() {
 		return states;
 	}
 	
-	public State getState(int stateNumber) {
+	public State getState(final int stateNumber) {
 		return stateMap.get(stateNumber);
 	}
 	
-	public HashSet<State> complementOf(HashSet<State> initialStates, HashSet<State> statesToSubstract) {
-		HashSet<State> complement = new HashSet<State>();
-		for (State state : initialStates) {
-			if (!statesToSubstract.contains(state)) {
-				complement.add(state);
-			}
-		}	
-		return complement;
+	public HashSet<State> complementOf(final HashSet<State> statesToSubstract) {
+		return states.stream().filter(x -> !statesToSubstract.contains(x)).collect(Collectors.toCollection(HashSet::new));
 	}
 	
-	public HashSet<State> unionOf(HashSet<State> set1, List<State> set2) {
-		HashSet<State> union = new HashSet<State>(set1);
+	public HashSet<State> unionOf(final HashSet<State> set1, final HashSet<State> set2) {
+		final HashSet<State> union = new HashSet<State>(set1);
 		union.addAll(set2);
 		return union;
 	}
 	
-	public HashSet<State> intersectionOf(HashSet<State> set1, List<State> set2) {
-		HashSet<State> intersection = new HashSet<State>();
+	public HashSet<State> intersectionOf(final HashSet<State> set1, final HashSet<State> differentSet) {
+		final HashSet<State> intersection = new HashSet<State>();
 		for (State state : set1) {
-			if (!set2.contains(state)) {
+			if (differentSet.contains(state)) {
 				intersection.add(state);
 			}
 		}
@@ -233,24 +219,19 @@ public class Model {
 	
 	public HashSet<State> trueForAll() {
 		//All states should be returned:
-		HashSet<State> trueStates = new HashSet<State>(states);		
-		return trueStates;
+		return new HashSet<State>(states);		
 	}
 	
 	public void prettyPrint() {
 		//Print all the information about the states out: 
 		//An arraylist so the states can be sorted after state numbers:
-		//TODO test this(*)
-		ArrayList<State> stateList = new ArrayList<State>(states);
+		final ArrayList<State> stateList = new ArrayList<State>(states);
+		
 		System.out.println("Printing the model: \n");
-		
 		System.out.println("Number of states: " + stateList.size() + "\n");
-		
 		System.out.println("Atomic propositions: " + atomicPropositions.toString() + "\n");
 		
 		Collections.sort(stateList);
-		for (int i = 0; i < stateList.size(); i++) {
-			System.out.println(stateList.get(i).toString());			
-		}
+		stateList.stream().forEach(x -> System.out.println(x.toString()));
 	}
 }

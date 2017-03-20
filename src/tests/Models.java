@@ -10,7 +10,7 @@ public class Models {
 		model.addState(2, "v", "1,4");
 		model.addState(3, "c", "4");
 		model.addState(4, "c", "3");
-		model.setStartStates("1,2,3,4");
+		model.setStartStates("1,3");
 		model.initialize();
 		return model;
 	}
