@@ -42,14 +42,11 @@ public class State implements Comparable<State>{
 	}
 	
 	public boolean canReachPhiLoop(final HashSet<State> phi) {
-		// Using breadth first, iteratively:
 		final Queue<State> statesToVisit = new LinkedList<State>();
 		//The starting state needs to be a phi state:
 		if (!phi.contains(this)) {
 			return false;
 		}		
-		//TODO check for errors in the case of a starting self loop.
-		
 		statesToVisit.add(this); //Starting from this state.
 		final HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
 		hasSeen.add(this);
@@ -72,13 +69,11 @@ public class State implements Comparable<State>{
 	}
 	
 	public boolean canFollowPhiToStuckPhiState(final HashSet<State> phi) {
-		// Using breadth first, iteratively:
 		final Queue<State> statesToVisit = new LinkedList<State>();
 		//The starting state needs to be a phi state:
 		if (!phi.contains(this)) {
 			return false;
-		}		
-		//TODO check for errors in the case of a starting self loop.		
+		}				
 		statesToVisit.add(this); //Starting from this state.
 		final HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
 		hasSeen.add(this);
