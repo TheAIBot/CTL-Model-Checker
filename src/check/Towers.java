@@ -1,30 +1,24 @@
 package check;
 
-import tests.Models;
+import static org.junit.Assert.*;
+
+import java.util.HashSet;
+import org.junit.Test;
 
 public class Towers {
 	
-	public static void main(String[] args) {
-		Model model = Models.getTestModel1();
-		System.out.println("Have no fear, the model is here!");
-		//model.prettyPrint();
-		getTowersOfHanoi();
-	}
-	
-	
-	public static Model getTestModel(){
-		Model model = new Model("v,c");
-		model.addState(1, "v,c", "2");
-		model.addState(2, "v", "1,4");
-		model.addState(3, "c", "4");
-		model.addState(4, "c", "3");
-		model.setStartStates("1,2,3,4");
-		model.initialize();
-		return model;
-	}
-	
-	public static Model getTowersOfHanoi() {
+	@Test
+	public void testTowers() {
+		final Model model = getTowersOfHanoi();
 		
+		//no stuck states exists
+		final HashSet<State> acceptedStates = model.AX(model.trueForAll());
+		assertTrue(model.getStates().stream().allMatch(x -> acceptedStates.contains(x)));
+		
+		
+	}
+	
+	public Model getTowersOfHanoi() {
 		String atomicPropositions = "AAA,BAA,CAA,"
 								  + "ABA,BBA,CBA,"
 								  + "ACA,BCA,CCA,"
@@ -47,18 +41,17 @@ public class Towers {
 		towersOfHanoi.addState(19, "BBA", "15,18,31");
 		
 		//Left triangle:
-		towersOfHanoi.addState(21, "CCB‚", "16,22,23");
-		towersOfHanoi.addState(22, "ACB‚", "21,24,23");
-		towersOfHanoi.addState(23, "BCB‚", "21,22,25");
-		towersOfHanoi.addState(24, "ABB‚", "22,26,27");
-		towersOfHanoi.addState(25, "BAB‚", "23,28,29");		
-		towersOfHanoi.addState(26, "BBB‚", "24,27");
-		towersOfHanoi.addState(27, "CBB‚", "24,26,28");		
-		towersOfHanoi.addState(28, "CAB‚", "27,25,29");
-		towersOfHanoi.addState(29, "AAB‚", "25,28,36");
+		towersOfHanoi.addState(21, "CCB,", "16,22,23");
+		towersOfHanoi.addState(22, "ACB,", "21,24,23");
+		towersOfHanoi.addState(23, "BCB,", "21,22,25");
+		towersOfHanoi.addState(24, "ABB,", "22,26,27");
+		towersOfHanoi.addState(25, "BAB,", "23,28,29");		
+		towersOfHanoi.addState(26, "BBB,", "24,27");
+		towersOfHanoi.addState(27, "CBB,", "24,26,28");		
+		towersOfHanoi.addState(28, "CAB,", "27,25,29");
+		towersOfHanoi.addState(29, "AAB,", "25,28,36");
 		
 		//Right triangle:		
-
 		towersOfHanoi.addState(31, "BBC", "19,32,33");
 		towersOfHanoi.addState(32, "CBC", "31,34,33");
 		towersOfHanoi.addState(33, "ABC", "31,32,35");
@@ -69,10 +62,7 @@ public class Towers {
 		towersOfHanoi.addState(38, "BCC", "37,35,39");
 		towersOfHanoi.addState(39, "CCC", "35,38");
 		
-		towersOfHanoi.initialize();
-		
-		towersOfHanoi.prettyPrint();
-		
+		towersOfHanoi.initialize();		
 		return towersOfHanoi;
 	}
 
