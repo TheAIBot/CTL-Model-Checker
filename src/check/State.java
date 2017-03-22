@@ -1,13 +1,10 @@
 package check;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
-public class State implements Comparable<State>{
+public class State extends TarjanInfo implements Comparable<State>{
 	private final Model model;
 	private final int stateNumber;
 	public final String[] labels;
@@ -64,10 +61,9 @@ public class State implements Comparable<State>{
 				}
 			}
 		}
-
 		return false;
 	}
-	
+		
 	public boolean canFollowPhiToStuckPhiState(final HashSet<State> phi) {
 		final Queue<State> statesToVisit = new LinkedList<State>();
 		//The starting state needs to be a phi state:
