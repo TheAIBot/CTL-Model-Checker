@@ -182,7 +182,6 @@ public class Model {
 			}
 		}
 		return true;
-
 	}
 	
 	public boolean checkIncludesInitialStates(final HashSet<State> superSet) {
