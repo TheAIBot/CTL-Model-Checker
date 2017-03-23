@@ -156,7 +156,8 @@ public class Model {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
-				isSuperSet(state.connectedStates,phiStates)) {
+				//isSuperSet(state.connectedStates,phiStates)) {//(*) talk about this change
+				state.connectedStates.stream().allMatch(x -> phiStates.contains(x))) {
 				validStates.add(state);
 			}
 		}
@@ -240,12 +241,13 @@ public class Model {
 		final HashMap<State, Integer> tarjanComponents = new HashMap<State, Integer>();
 		int superIndex = 0;
 		final Stack<State> S = new Stack<State>();
+		getStates().stream().forEach(x -> x.resetTarjan());
 		for (State v : getStates()) {
 			if (phiStates.contains(v)) {
 				if (v.index == TarjanInfo.UNDEFINED) {
 					superIndex = strongconnect(v, superIndex, S, statesInComponent, tarjanComponents, phiStates);
 				}	
-				else if (v.getConnectedStates().stream().anyMatch(x -> v == x)) {
+				if (v.getConnectedStates().contains(v)) {
 					statesInLoop.add(v);
 				}
 			}

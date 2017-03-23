@@ -19,9 +19,16 @@ public class State extends TarjanInfo implements Comparable<State>{
 	}
 	
 	public HashSet<State> getReachableStates() {
+		return getReachableStates(model.getStates());
+	}
+	
+	public HashSet<State> getReachableStates(HashSet<State> phi) {
 		final HashSet<State> reachableStates = new HashSet<State>();
 		// Using breadth first, iteratively:
 		final Queue<State> statesToVisit = new LinkedList<State>();
+		if (!phi.contains(this)) {
+			return reachableStates;
+		}
 		//Starting from this state:
 		statesToVisit.add(this);
 		reachableStates.add(this);
@@ -29,7 +36,7 @@ public class State extends TarjanInfo implements Comparable<State>{
 		while (!statesToVisit.isEmpty()) {
 			final State currentState = statesToVisit.poll();
 			for (State state : currentState.getConnectedStates()) {
-				if (!reachableStates.contains(state)) {
+				if (!reachableStates.contains(state) && phi.contains(state)) {
 					statesToVisit.add(state);
 					reachableStates.add(state);
 				}
@@ -40,7 +47,7 @@ public class State extends TarjanInfo implements Comparable<State>{
 	
 	public boolean canReachPhiLoop(final HashSet<State> phi) {
 		HashSet<State> statesInLoops = model.tarjan(phi);
-		HashSet<State> reachedStates = getReachableStates();
+		HashSet<State> reachedStates = getReachableStates(phi);
 		return reachedStates.stream().anyMatch(x -> statesInLoops.contains(x));
 	}
 		
