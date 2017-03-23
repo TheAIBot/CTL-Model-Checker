@@ -7,13 +7,6 @@ import org.junit.Test;
 import check.Model;
 
 public class testModel {
-	
-	//TODO Make the following tests:
-	//test for find states with label.
-	//test for making nodes.
-		//And all the different cases.
-	//test for states with no labels, and searching for them.
-	
 	@Test
 	public void testCreateBaseModel(){
 		Model model = new Model("v,c");

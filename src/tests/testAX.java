@@ -41,7 +41,6 @@ public class testAX {
 	
 	@Test
 	public void testNodesWithNoEdgesNotIncluded() {
-		//TODO add this test to all methods. Discuss.
 		Model model = new Model("a,b");
 		model.addState(1, "a", "");
 		model.initialize();
@@ -52,7 +51,6 @@ public class testAX {
 	
 	@Test
 	public void testSelfLoopState() {
-		//TODO add this test to all methods. Discuss.
 		Model model = new Model("a,b");
 		try {
 			model.addState(1, "a", "1");

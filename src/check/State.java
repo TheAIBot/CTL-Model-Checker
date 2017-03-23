@@ -32,7 +32,6 @@ public class State extends TarjanInfo implements Comparable<State>{
 		//Starting from this state:
 		statesToVisit.add(this);
 		reachableStates.add(this);
-		//TODO check for error in the case of a starting selfloop
 		while (!statesToVisit.isEmpty()) {
 			final State currentState = statesToVisit.poll();
 			for (State state : currentState.getConnectedStates()) {
