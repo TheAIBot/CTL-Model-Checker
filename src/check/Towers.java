@@ -11,23 +11,17 @@ public class Towers {
 		final Model model = getTowersOfHanoi();
 		
 		//no stuck states exists
-		final HashSet<State> acceptedStates = model.AX(model.trueForAll());
-		assertTrue(model.getStates().stream().allMatch(x -> acceptedStates.contains(x)));
+		model.setStartStates("11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39");
+		assertTrue(model.checkIncludesInitialStates(model.AX(model.trueForAll())));
 		
 		//every corner only has two edges
 		HashSet<State> phi = new HashSet<State>();
 		phi.add(model.getState(11));
 		phi.add(model.getState(26));
 		phi.add(model.getState(39));
-		acceptedStates.clear();
-		acceptedStates.addAll(model.EX(phi));
-		assertEquals(6, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(12)));
-		assertTrue(acceptedStates.contains(model.getState(13)));
-		assertTrue(acceptedStates.contains(model.getState(24)));
-		assertTrue(acceptedStates.contains(model.getState(27)));
-		assertTrue(acceptedStates.contains(model.getState(35)));
-		assertTrue(acceptedStates.contains(model.getState(38)));
+		model.setStartStates("12,13,24,27,35,38");
+		assertTrue(model.checkIncludesInitialStates(model.EX(phi)));
+
 		
 		//towers of hanoi is made out of 3 smaller triangles
 		//as they are all the same this proves that one contains loops
@@ -50,18 +44,8 @@ public class Towers {
 		phi.add(model.getState(37));
 		phi.add(model.getState(38));
 		phi.add(model.getState(39));
-		acceptedStates.clear();
-		acceptedStates.addAll(model.EG(model.complementOf(phi)));
-		assertEquals(9, acceptedStates.size());
-		assertTrue(acceptedStates.contains(model.getState(21)));
-		assertTrue(acceptedStates.contains(model.getState(22)));
-		assertTrue(acceptedStates.contains(model.getState(23)));
-		assertTrue(acceptedStates.contains(model.getState(24)));
-		assertTrue(acceptedStates.contains(model.getState(25)));
-		assertTrue(acceptedStates.contains(model.getState(26)));
-		assertTrue(acceptedStates.contains(model.getState(27)));
-		assertTrue(acceptedStates.contains(model.getState(28)));
-		assertTrue(acceptedStates.contains(model.getState(29)));
+		model.setStartStates("21,22,23,24,25,26,27,28,29");
+		assertTrue(model.checkIncludesInitialStates(model.EG(model.complementOf(phi))));
 		
 		//and a few random ones
 		phi.clear();
@@ -69,9 +53,8 @@ public class Towers {
 		phi.add(model.getState(15));
 		phi.add(model.getState(18));
 		phi.add(model.getState(27));
-		acceptedStates.clear();
-		acceptedStates.addAll(model.unionOf(model.EG(model.complementOf(phi)), model.AG(phi)));
-		assertEquals(23, acceptedStates.size());
+		model.setStartStates("11,12,13,14,16,17,21,22,23,24,25,26,28,29,31,32,33,34,36,37,38,39");
+		assertTrue(model.checkIncludesInitialStates(model.unionOf(model.EG(model.complementOf(phi)), model.AG(phi))));
 		
 		//another random one
 		phi.clear();
@@ -79,9 +62,8 @@ public class Towers {
 		phi.add(model.getState(15));
 		phi.add(model.getState(18));
 		phi.add(model.getState(27));
-		acceptedStates.clear();
-		acceptedStates.addAll(model.intersectionOf(model.EX(phi), model.AX(model.complementOf(phi))));
-		assertEquals(0, acceptedStates.size());
+		model.setStartStates("");
+		assertTrue(model.checkIncludesInitialStates(model.intersectionOf(model.EX(phi), model.AX(model.complementOf(phi)))));
 	}
 	
 	public static Model getTowersOfHanoi() {

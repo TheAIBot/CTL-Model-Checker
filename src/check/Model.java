@@ -32,6 +32,12 @@ public class Model {
 
 	public void setStartStates(String startStateNumbersString) {
 		final String[] startStateNumbers = startStateNumbersString.split(",");
+		initialStates.clear();
+		
+		if (startStateNumbers.length == 1 && startStateNumbers[0].trim() == "") {
+			return;
+		}
+		
 		for (String stateNumberString : startStateNumbers) {
 			if (!isInteger(stateNumberString)) {
 				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
