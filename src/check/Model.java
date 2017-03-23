@@ -156,8 +156,7 @@ public class Model {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
-				//isSuperSet(state.connectedStates,phiStates)) {//(*) talk about this change
-				state.connectedStates.stream().allMatch(x -> phiStates.contains(x))) {
+				isSuperSet(state.connectedStates,phiStates)) {//(*) talk about this change
 				validStates.add(state);
 			}
 		}
