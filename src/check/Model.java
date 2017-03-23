@@ -240,21 +240,21 @@ public class Model {
 		final HashMap<Integer, Integer> statesInComponent = new HashMap<Integer, Integer>();
 		final HashMap<State, Integer> tarjanComponents = new HashMap<State, Integer>();
 		int superIndex = 0;
-		final Stack<State> S = new Stack<State>();
+		final Stack<State> loopStatesStack = new Stack<State>();
 		getStates().stream().forEach(x -> x.resetTarjan());
-		for (State v : getStates()) {
-			if (phiStates.contains(v)) {
-				if (v.index == TarjanInfo.UNDEFINED) {
-					superIndex = strongconnect(v, superIndex, S, statesInComponent, tarjanComponents, phiStates);
+		for (State stateToCheck : getStates()) {
+			if (phiStates.contains(stateToCheck)) {
+				if (stateToCheck.tarjanIndex == TarjanInfo.TARJAN_UNDEFINED) {
+					superIndex = strongconnect(stateToCheck, superIndex, loopStatesStack, statesInComponent, tarjanComponents, phiStates);
 				}	
-				if (v.getConnectedStates().contains(v)) {
-					statesInLoop.add(v);
+				if (stateToCheck.getConnectedStates().contains(stateToCheck)) {
+					statesInLoop.add(stateToCheck);
 				}
 			}
 		}
 		
 		for (State state : tarjanComponents.keySet()) {
-			Integer componentSize = statesInComponent.get(state.lowlink);
+			Integer componentSize = statesInComponent.get(state.tarjanLowlink);
 			if (componentSize != null && componentSize.intValue() > 1) {
 				statesInLoop.add(state);
 			}
@@ -262,34 +262,34 @@ public class Model {
 		return statesInLoop;
 	}
 	
-	private int strongconnect(State v, int superIndex, Stack<State> S, HashMap<Integer, Integer> statesInComponent, HashMap<State, Integer> tarjanComponents, HashSet<State> phiStates) {
-		v.index = superIndex;
-		v.lowlink = superIndex;
+	private int strongconnect(State stateToCheck, int superIndex, Stack<State> loopStatesStack, HashMap<Integer, Integer> statesInComponent, HashMap<State, Integer> tarjanComponents, HashSet<State> phiStates) {
+		stateToCheck.tarjanIndex = superIndex;
+		stateToCheck.tarjanLowlink = superIndex;
 		superIndex++;
-		S.add(v);
-		v.onStack = true;
+		loopStatesStack.add(stateToCheck);
+		stateToCheck.tarjanOnStack = true;
 		
-		for (State w : v.getConnectedStates()) {
-			if (phiStates.contains(w)) {
-				if (w.index == TarjanInfo.UNDEFINED) {
-					superIndex = strongconnect(w, superIndex, S, statesInComponent, tarjanComponents, phiStates);
-					v.lowlink = Math.min(v.lowlink, w.lowlink);
+		for (State transitionState : stateToCheck.getConnectedStates()) {
+			if (phiStates.contains(transitionState)) {
+				if (transitionState.tarjanIndex == TarjanInfo.TARJAN_UNDEFINED) {
+					superIndex = strongconnect(transitionState, superIndex, loopStatesStack, statesInComponent, tarjanComponents, phiStates);
+					stateToCheck.tarjanLowlink = Math.min(stateToCheck.tarjanLowlink, transitionState.tarjanLowlink);
 				}
-				else if (w.onStack) {
-					v.lowlink = Math.min(v.lowlink, w.lowlink);
+				else if (transitionState.tarjanOnStack) {
+					stateToCheck.tarjanLowlink = Math.min(stateToCheck.tarjanLowlink, transitionState.tarjanLowlink);
 				}	
 			}
 		}
 		
-		if (v.lowlink == v.index) {
-			State w;
+		if (stateToCheck.tarjanLowlink == stateToCheck.tarjanIndex) {
+			State stateOnLoopStack;
 			do {
-				w = S.pop();
-				w.onStack = false;
-				tarjanComponents.put(w, v.lowlink);
-				Integer componentSize = statesInComponent.get(v.lowlink);
-				statesInComponent.put(v.lowlink, (componentSize == null) ? 1 : componentSize.intValue() + 1);
-			} while (w != v);
+				stateOnLoopStack = loopStatesStack.pop();
+				stateOnLoopStack.tarjanOnStack = false;
+				tarjanComponents.put(stateOnLoopStack, stateToCheck.tarjanLowlink);
+				Integer componentSize = statesInComponent.get(stateToCheck.tarjanLowlink);
+				statesInComponent.put(stateToCheck.tarjanLowlink, (componentSize == null) ? 1 : componentSize.intValue() + 1);
+			} while (stateOnLoopStack != stateToCheck);
 		}
 		
 		return superIndex;
