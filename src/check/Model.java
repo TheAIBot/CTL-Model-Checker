@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class Model {
@@ -17,13 +17,13 @@ public class Model {
 	private final ArrayList<String> atomicPropositions;
 	private final HashSet<State> initialStates = new HashSet<State>();
 	private boolean hasBeenInitialized = false;
-
+	
 	/**
 	 * TODO no comma as a character in the atomic propositions!
 	 * 
 	 * @param atomicPropositions
 	 */
-	public Model(final String atomicPropositionsString) {
+ 	public Model(final String atomicPropositionsString) {
 		final Set<String> hs = new HashSet<String>();
 		hs.addAll(Arrays.asList(atomicPropositionsString.split(",")));
 		atomicPropositions = new ArrayList<String>(hs);
@@ -232,5 +232,64 @@ public class Model {
 		
 		Collections.sort(stateList);
 		stateList.stream().forEach(x -> System.out.println(x.toString()));
+	}
+
+	public HashSet<State> tarjan(HashSet<State> phiStates) {
+		final HashSet<State> statesInLoop = new HashSet<State>();
+		final HashMap<Integer, Integer> statesInComponent = new HashMap<Integer, Integer>();
+		final HashMap<State, Integer> tarjanComponents = new HashMap<State, Integer>();
+		int superIndex = 0;
+		final Stack<State> S = new Stack<State>();
+		for (State v : getStates()) {
+			if (phiStates.contains(v)) {
+				if (v.index == TarjanInfo.UNDEFINED) {
+					superIndex = strongconnect(v, superIndex, S, statesInComponent, tarjanComponents, phiStates);
+				}	
+				else if (v.getConnectedStates().stream().anyMatch(x -> v == x)) {
+					statesInLoop.add(v);
+				}
+			}
+		}
+		
+		for (State state : tarjanComponents.keySet()) {
+			Integer componentSize = statesInComponent.get(state.lowlink);
+			if (componentSize != null && componentSize.intValue() > 1) {
+				statesInLoop.add(state);
+			}
+		}
+		return statesInLoop;
+	}
+	
+	private int strongconnect(State v, int superIndex, Stack<State> S, HashMap<Integer, Integer> statesInComponent, HashMap<State, Integer> tarjanComponents, HashSet<State> phiStates) {
+		v.index = superIndex;
+		v.lowlink = superIndex;
+		superIndex++;
+		S.add(v);
+		v.onStack = true;
+		
+		for (State w : v.getConnectedStates()) {
+			if (phiStates.contains(w)) {
+				if (w.index == TarjanInfo.UNDEFINED) {
+					superIndex = strongconnect(w, superIndex, S, statesInComponent, tarjanComponents, phiStates);
+					v.lowlink = Math.min(v.lowlink, w.lowlink);
+				}
+				else if (w.onStack) {
+					v.lowlink = Math.min(v.lowlink, w.lowlink);
+				}	
+			}
+		}
+		
+		if (v.lowlink == v.index) {
+			State w;
+			do {
+				w = S.pop();
+				w.onStack = false;
+				tarjanComponents.put(w, v.lowlink);
+				Integer componentSize = statesInComponent.get(v.lowlink);
+				statesInComponent.put(v.lowlink, (componentSize == null) ? 1 : componentSize.intValue() + 1);
+			} while (w != v);
+		}
+		
+		return superIndex;
 	}
 }

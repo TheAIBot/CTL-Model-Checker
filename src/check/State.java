@@ -1,13 +1,10 @@
 package check;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
-public class State implements Comparable<State>{
+public class State extends TarjanInfo implements Comparable<State>{
 	private final Model model;
 	private final int stateNumber;
 	public final String[] labels;
@@ -42,43 +39,17 @@ public class State implements Comparable<State>{
 	}
 	
 	public boolean canReachPhiLoop(final HashSet<State> phi) {
-		// Using breadth first, iteratively:
-		final Queue<State> statesToVisit = new LinkedList<State>();
-		//The starting state needs to be a phi state:
-		if (!phi.contains(this)) {
-			return false;
-		}		
-		//TODO check for errors in the case of a starting self loop.
-		
-		statesToVisit.add(this); //Starting from this state.
-		final HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
-		hasSeen.add(this);
-		
-		while (!statesToVisit.isEmpty()) {
-			final State currentState = statesToVisit.poll();
-			for (State neighbor : currentState.getConnectedStates()) {
-				if (phi.contains(neighbor)) {
-					if (hasSeen.contains(neighbor)) {//If it has already been seen and is a phi state, then there is a loop!
-						return true;
-					} else {//Else we continue:
-						statesToVisit.add(neighbor);
-						hasSeen.add(neighbor);						
-					}
-				}
-			}
-		}
-
-		return false;
+		HashSet<State> statesInLoops = model.tarjan(phi);
+		HashSet<State> reachedStates = getReachableStates();
+		return reachedStates.stream().anyMatch(x -> statesInLoops.contains(x));
 	}
-	
+		
 	public boolean canFollowPhiToStuckPhiState(final HashSet<State> phi) {
-		// Using breadth first, iteratively:
 		final Queue<State> statesToVisit = new LinkedList<State>();
 		//The starting state needs to be a phi state:
 		if (!phi.contains(this)) {
 			return false;
-		}		
-		//TODO check for errors in the case of a starting self loop.		
+		}				
 		statesToVisit.add(this); //Starting from this state.
 		final HashSet<State> hasSeen = new HashSet<State>(); //No visiting the same state twice.
 		hasSeen.add(this);
@@ -161,7 +132,7 @@ public class State implements Comparable<State>{
 		sBuilder.append("\n");
 		
 		//write all transitions
-		sBuilder.append("Edges/transitions ");
+		sBuilder.append("Transitions ");
 		sBuilder.append(Arrays.toString(edges));
 		sBuilder.append("\n");
 		
