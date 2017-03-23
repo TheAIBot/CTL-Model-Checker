@@ -10,19 +10,12 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class Model {
-	
-	// it, as discussed before. Also, whether one can assume that there are no stuck states.
 	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
 	public final HashSet<State> states = new HashSet<State>();
 	private final ArrayList<String> atomicPropositions;
 	private final HashSet<State> initialStates = new HashSet<State>();
 	private boolean hasBeenInitialized = false;
 	
-	/**
-	 * TODO no comma as a character in the atomic propositions!
-	 * 
-	 * @param atomicPropositions
-	 */
  	public Model(final String atomicPropositionsString) {
 		final Set<String> hs = new HashSet<String>();
 		hs.addAll(Arrays.asList(atomicPropositionsString.split(",")));
@@ -88,8 +81,8 @@ public class Model {
 		if (stateMap.containsKey(stateNumber)) {
 			throw new Error("Error: cannot insert state " + stateNumber + " twice.");
 		}
-		final String[] labels = labelString.split(",");//TODO (*) Remember to check for duplicates!
-		Arrays.sort(labels); // Just for the heck of it.
+		final String[] labels = labelString.split(",");
+		Arrays.sort(labels); // Just for the heck of it. It is nicer to debug with a sorted array.
 		for (String label : labels) {
 			if (!atomicPropositions.contains(label)) {
 				throw new Error("Error: " + label + " is not an atomic proposition.");
@@ -98,25 +91,24 @@ public class Model {
 		
 		final String[] edgesStrings = edgeString.split(",");
 		int[] edges = new int[edgesStrings.length];
-		if (!(edges.length == 1 && edgesStrings[0].equals(""))) {
-			//If it has edges, then:
+		if (!(edges.length == 1 && edgesStrings[0].equals(""))) {//If it has edges, then:
 			for (int i = 0; i < edges.length; i++) {
 				if (!isInteger(edgesStrings[i])) {
 					throw new Error("Error: the edges given must be integers, not: " + edgesStrings[i]);
 				}
 				edges[i] = Integer.parseInt(edgesStrings[i]);
 			}
-		} else {
+		} else { //Else its simply an empty integer array.
 			edges = new int[0];
 		}
 		Arrays.sort(edges);
-		// It must not contain duplicates (and it is sorted):
-		
+		// It must not contain duplicates (and it is sorted):		
 		for (int i = 0; i < edges.length - 1; i++) {
 			if (edges[i] >= edges[i + 1]) {
 				throw new Error("Error: duplicate edges for a state is not allowed: see state " + stateNumber + " with edges " + edges[i]);
 			}
 		}
+		//If this has been reached, it is a legal state!
 		State newState = new State(this, stateNumber, labels, edges);
 		stateMap.put(newState.getStateNumber(), newState);
 		states.add(newState);
@@ -136,18 +128,17 @@ public class Model {
 	}
 	
 	public HashSet<State> AF(final HashSet<State> phiStates){
-		//TODO will not work in the case that there exists stuck states.
-		//All the states coming from a path of infinite lenght:
+		//The complement of the phi states:
 		final HashSet<State> allButPhiStates = complementOf(phiStates);
+		//All the states where one can continue to stay in states not satisfying phi:
 		final HashSet<State> notValidStates = EG(allButPhiStates);
+		//And then, finding the complement and thus all the states where one eventually is forced to go to a state satisfying phi:
 		final HashSet<State> validStates = complementOf(notValidStates);
-		//A finite length path:
-		//TODO (*) Make
+		//And then returned:
 		return validStates;
 	}
 	
 	public HashSet<State> AG(final HashSet<State> phiStates) {
-		//(*)Check om korrekt.
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (isSuperSet(state.getReachableStates(),phiStates)) { 
@@ -162,7 +153,7 @@ public class Model {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
 			if (!state.connectedStates.isEmpty() && 
-				isSuperSet(state.connectedStates,phiStates)) {//(*) talk about this change
+				isSuperSet(state.connectedStates,phiStates)) {
 				validStates.add(state);
 			}
 		}
@@ -241,6 +232,8 @@ public class Model {
 	}
 
 	public HashSet<State> tarjan(HashSet<State> phiStates) {
+		//Tarjans algorithm for finding strongly connected component. 
+		//Implementation of the one described on wikipedia, with a few small tweaks to give the desired result.
 		final HashSet<State> statesInLoop = new HashSet<State>();
 		final HashMap<Integer, Integer> statesInComponent = new HashMap<Integer, Integer>();
 		final HashMap<State, Integer> tarjanComponents = new HashMap<State, Integer>();

@@ -11,7 +11,6 @@ import check.State;
 import check.Towers;
 
 public class testAF {
-	//TODO tested the wrong method.
 
 	@Test
 	public void testGoToVowel() {
@@ -144,7 +143,6 @@ public class testAF {
 	
 	@Test
 	public void testSelfLoopState() {
-		//TODO add this test to all methods. Discuss.
 		Model model = new Model("a,b");
 		try {
 			model.addState(1, "a", "1");
