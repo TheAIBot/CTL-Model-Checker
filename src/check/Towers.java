@@ -10,11 +10,11 @@ public class Towers {
 	public static void main(String[] args) {
 		final Model model = getTowersOfHanoi();
 		
-		//no stuck states exists
+		//No stuck states exists
 		final HashSet<State> acceptedStates = model.AX(model.trueForAll());
 		assertTrue(model.getStates().stream().allMatch(x -> acceptedStates.contains(x)));
 
-		//every corner only has two edges
+		//Every corner only has two edges
 		HashSet<State> phi = new HashSet<State>();
 		phi.add(model.getState(11));
 		phi.add(model.getState(26));
@@ -82,6 +82,7 @@ public class Towers {
 		acceptedStates.clear();
 		acceptedStates.addAll(model.intersectionOf(model.EX(phi), model.AX(model.complementOf(phi))));
 		assertEquals(0, acceptedStates.size());
+		
 	}
 	
 	public static Model getTowersOfHanoi() {
