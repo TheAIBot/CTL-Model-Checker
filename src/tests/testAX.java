@@ -43,13 +43,9 @@ public class testAX {
 	public void testNodesWithNoEdgesNotIncluded() {
 		//TODO add this test to all methods. Discuss.
 		Model model = new Model("a,b");
-		try {
-			model.addState(1, "a", "");
-			model.initialize();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			fail();
-		}
+		model.addState(1, "a", "");
+		model.initialize();
+		
 		HashSet<State> result = model.AX(model.getStatesWithLabel("a"));
 		assertEquals(0, result.size());
 	}

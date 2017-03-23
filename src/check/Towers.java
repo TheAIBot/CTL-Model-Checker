@@ -7,18 +7,84 @@ import org.junit.Test;
 
 public class Towers {
 	
-	@Test
-	public void testTowers() {
+	public static void main(String[] args) {
 		final Model model = getTowersOfHanoi();
 		
 		//no stuck states exists
 		final HashSet<State> acceptedStates = model.AX(model.trueForAll());
 		assertTrue(model.getStates().stream().allMatch(x -> acceptedStates.contains(x)));
+
+		//every corner only has two edges
+		HashSet<State> phi = new HashSet<State>();
+		phi.add(model.getState(11));
+		phi.add(model.getState(26));
+		phi.add(model.getState(39));
+		acceptedStates.clear();
+		acceptedStates.addAll(model.EX(phi));
+		assertEquals(6, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(12)));
+		assertTrue(acceptedStates.contains(model.getState(13)));
+		assertTrue(acceptedStates.contains(model.getState(24)));
+		assertTrue(acceptedStates.contains(model.getState(27)));
+		assertTrue(acceptedStates.contains(model.getState(35)));
+		assertTrue(acceptedStates.contains(model.getState(38)));
 		
+		//towers of hanoi is made out of 3 smaller triangles
+		//as they are all the same this proves that one contains loops
+		phi.clear();
+		phi.add(model.getState(11));
+		phi.add(model.getState(12));
+		phi.add(model.getState(13));
+		phi.add(model.getState(14));
+		phi.add(model.getState(15));
+		phi.add(model.getState(16));
+		phi.add(model.getState(17));
+		phi.add(model.getState(18));
+		phi.add(model.getState(19));
+		phi.add(model.getState(31));
+		phi.add(model.getState(32));
+		phi.add(model.getState(33));
+		phi.add(model.getState(34));
+		phi.add(model.getState(35));
+		phi.add(model.getState(36));
+		phi.add(model.getState(37));
+		phi.add(model.getState(38));
+		phi.add(model.getState(39));
+		acceptedStates.clear();
+		acceptedStates.addAll(model.EG(model.complementOf(phi)));
+		assertEquals(9, acceptedStates.size());
+		assertTrue(acceptedStates.contains(model.getState(21)));
+		assertTrue(acceptedStates.contains(model.getState(22)));
+		assertTrue(acceptedStates.contains(model.getState(23)));
+		assertTrue(acceptedStates.contains(model.getState(24)));
+		assertTrue(acceptedStates.contains(model.getState(25)));
+		assertTrue(acceptedStates.contains(model.getState(26)));
+		assertTrue(acceptedStates.contains(model.getState(27)));
+		assertTrue(acceptedStates.contains(model.getState(28)));
+		assertTrue(acceptedStates.contains(model.getState(29)));
 		
+		//and a few random ones
+		phi.clear();
+		phi.add(model.getState(35));
+		phi.add(model.getState(15));
+		phi.add(model.getState(18));
+		phi.add(model.getState(27));
+		acceptedStates.clear();
+		acceptedStates.addAll(model.unionOf(model.EG(model.complementOf(phi)), model.AG(phi)));
+		assertEquals(23, acceptedStates.size());
+		
+		//another random one
+		phi.clear();
+		phi.add(model.getState(35));
+		phi.add(model.getState(15));
+		phi.add(model.getState(18));
+		phi.add(model.getState(27));
+		acceptedStates.clear();
+		acceptedStates.addAll(model.intersectionOf(model.EX(phi), model.AX(model.complementOf(phi))));
+		assertEquals(0, acceptedStates.size());
 	}
 	
-	public Model getTowersOfHanoi() {
+	public static Model getTowersOfHanoi() {
 		String atomicPropositions = "AAA,BAA,CAA,"
 								  + "ABA,BBA,CBA,"
 								  + "ACA,BCA,CCA,"
