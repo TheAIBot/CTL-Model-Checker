@@ -26,6 +26,12 @@ public class Model {
 
 	public void setStartStates(String startStateNumbersString) {
 		final String[] startStateNumbers = startStateNumbersString.split(",");
+		initialStates.clear();
+		
+		if (startStateNumbers.length == 1 && startStateNumbers[0].trim() == "") {
+			return;
+		}
+		
 		for (String stateNumberString : startStateNumbers) {
 			if (!isInteger(stateNumberString)) {
 				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
@@ -153,8 +159,8 @@ public class Model {
 	public HashSet<State> AX(final HashSet<State> phiStates) {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (!state.connectedStates.isEmpty()
-					&& state.connectedStates.stream().allMatch(x -> phiStates.contains(x))) {
+			if (!state.connectedStates.isEmpty() && 
+				isSuperSet(state.connectedStates,phiStates)) {
 				validStates.add(state);
 			}
 		}
