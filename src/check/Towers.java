@@ -47,6 +47,12 @@ public class Towers {
 		model.setStartStates("21,22,23,24,25,26,27,28,29");
 		assertTrue(model.checkIncludesInitialStates(model.EG(model.complementOf(phi))));
 		
+		//is there a path from all states to CCC
+		phi.clear();
+		phi.addAll(model.getStatesWithLabel("CCC"));
+		model.setStartStates("11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39");
+		assertTrue(model.checkIncludesInitialStates(model.EF(phi)));
+		
 		//and a few random ones
 		phi.clear();
 		phi.add(model.getState(35));
