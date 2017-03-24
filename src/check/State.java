@@ -46,7 +46,7 @@ public class State extends TarjanInfo implements Comparable<State>{
 	
 	public boolean canReachPhiLoop(final HashSet<State> phi) {
 		HashSet<State> statesInLoops = model.tarjan(phi);
-		HashSet<State> reachedStates = getReachableStates(phi);
+		HashSet<State> reachedStates = getReachableStates(phi); //All reachable states, only passing through phi states.
 		return reachedStates.stream().anyMatch(x -> statesInLoops.contains(x));
 	}
 		
