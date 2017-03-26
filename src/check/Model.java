@@ -27,11 +27,11 @@ public class Model {
 	public void setStartStates(String startStateNumbersString) {
 		final String[] startStateNumbers = startStateNumbersString.split(",");
 		initialStates.clear();
-		
+
 		if (startStateNumbers.length == 1 && startStateNumbers[0].trim() == "") {
 			return;
 		}
-		
+
 		for (String stateNumberString : startStateNumbers) {
 			if (!isInteger(stateNumberString)) {
 				throw new Error("The start state string must only contain integers, not: " + stateNumberString);
@@ -149,7 +149,7 @@ public class Model {
 	public HashSet<State> AG(final HashSet<State> phiStates) {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (isSuperSet(state.getReachableStates(),phiStates)) { 
+			if (isSuperSet(state.getReachableStates(), phiStates)) {
 				validStates.add(state);
 			}
 		}
@@ -159,8 +159,7 @@ public class Model {
 	public HashSet<State> AX(final HashSet<State> phiStates) {
 		final HashSet<State> validStates = new HashSet<State>();
 		for (State state : states) {
-			if (!state.connectedStates.isEmpty() && 
-				isSuperSet(state.connectedStates,phiStates)) {
+			if (!state.connectedStates.isEmpty() && isSuperSet(state.connectedStates, phiStates)) {
 				validStates.add(state);
 			}
 		}
@@ -168,18 +167,21 @@ public class Model {
 	}
 
 	public HashSet<State> EX(final HashSet<State> phiStates) {
-		return states.stream().filter(x -> x.getConnectedStates().stream().anyMatch(y -> phiStates.contains(y)))
-				.collect(Collectors.toCollection(HashSet::new));
+		return states.stream().filter(x -> x.getConnectedStates().stream()
+			   .anyMatch(y -> phiStates.contains(y)))
+			   .collect(Collectors.toCollection(HashSet::new));
 	}
 
 	public HashSet<State> EF(final HashSet<State> phiStates) {
-		return states.stream().filter(x -> x.getReachableStates().stream().anyMatch(y -> phiStates.contains(y)))
+		return states.stream().filter(x -> x.getReachableStates().stream()
+				.anyMatch(y -> phiStates.contains(y)))
 				.collect(Collectors.toCollection(HashSet::new));
 	}
 
 	public HashSet<State> EG(final HashSet<State> phiStates) {
-		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) || x.canFollowPhiToStuckPhiState(phiStates))
-				.collect(Collectors.toCollection(HashSet::new));
+		return states.stream().filter(x -> x.canReachPhiLoop(phiStates) ||
+			   x.canFollowPhiToStuckPhiState(phiStates))
+			   .collect(Collectors.toCollection(HashSet::new));
 	}
 
 	private boolean isSuperSet(final HashSet<State> subSet, final HashSet<State> superSet) {
