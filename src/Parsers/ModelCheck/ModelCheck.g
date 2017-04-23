@@ -1,43 +1,40 @@
-// The grammar should be called as the filename (without extension)
-grammar Calculator;
+grammar ModelCheck;
 
-// This is how we tell ANTLR to generate Java code
 options {
   language = Java;
 }
 
-// Start rules that end with EOF (End Of File) are useful to detect end of input
-// All the rules in this grammar return an integer
-// We call the return value just "value"
-start returns [int value]
-                                  // We update the return value to the value
-                                  // obtained from parsing arith_expr
-    : e = arith_expr EOF          { $value = e; }
-    ;
 
-// These are the productions for arithtmetic expresssion (least precedence level)
-arith_expr returns [int value]
-    :       e = mult_arith_expr   { $value = e; }
-      ( '+' e = mult_arith_expr   { $value = $value + e; }
-      | '-' e = mult_arith_expr   { $value = $value - e; } )*
-    ;
+start [Model model] returns [boolean b]
+	: e = precedence1[model] EOF {b = model.checkIncludesInitialStates(e);}
+	;
 
-// These are the productions for arithtmetic expresssion (middle precedence level)
-mult_arith_expr returns [int value]
-    :       e = base_arith_expr     { $value = e; }
-      ( '*' e = base_arith_expr     { $value = $value * e; }
-      | '/' e = base_arith_expr     { $value = $value / e; } )*
-    ;
+precedence1 [Model model] returns [HashSet<State> phi]
+	: e = precedence2[model] {phi = e;}
+	| 'AF(' e = precedence2[model] ')' {phi = model.AF(e)}
+	| 'AG(' e = precedence2[model] ')' {phi = model.AG(e)}
+	| 'AX(' e = precedence2[model] ')' {phi = model.AX(e)}
+	| 'EX(' e = precedence2[model] ')' {phi = model.EX(e)}
+	| 'EF(' e = precedence2[model] ')' {phi = model.EF(e)}
+	| 'EG(' e = precedence2[model] ')' {phi = model.EG(e)}
+	;
+	
+precedence2 [Model model] returns [HashSet<State> phi]
+	: e = precedence3[model] {phi = e;}
+	| '(' left = precedence3[model] 'and' right = precedence3[model] ')' {phi = model.intersectionOf(left, right);}
+	;
+	
+precedence3 [Model model] returns [HashSet<State> phi]
+	: e = precedence4[model] {phi = e;}
+	| 'not(' e = precedence4[model] ')' {phi = model.complementOf(e);}
+	;
+	
+precedence4 [Model model] returns [HashSet<State> phi]
+	: e = STRING {phi = model.getStatesWithLabel(e.gettext());}
+	| 'tt' {phi = model.trueForAll();}
+	| '(' e1 = precedence1[model] ')' {phi = e1;}
+	;
+	
+STRING : ('a'..'z'|'A'..'Z')+;
 
-// These are the productions for arithtmetic expresssion (greatest precedence level)
-base_arith_expr returns [int value]
-                                  // We need to cast strings into intergers
-    : NUM                         { $value = Integer.parseInt($NUM.getText()); }
-    | '(' e = arith_expr ')'      { $value=e; }
-    ;
-
-// Declare NUM tokens for numbers as a regular expression
-NUM : '0'..'9' ;
-
-// This clause is pretty standard and tells ANTLR to ignore blamnk spaces
 WS  :   (' '|'\t'|'\r'|'\n')+ { $channel = HIDDEN; } ;
