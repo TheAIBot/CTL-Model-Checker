@@ -1,5 +1,4 @@
 package Parsers.TransitionSystem.output;
-
 import org.antlr.runtime.*;
 
 import check.Model;
@@ -146,7 +145,7 @@ public class TransitionSystemParser extends Parser {
 					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:15:4: e= '*'
 					{
 					e=(Token)match(input,7,FOLLOW_7_in_initialStar92); 
-					b = e.getText().length() > 0;
+					b = true;
 					}
 					break;
 				case 2 :
@@ -172,7 +171,7 @@ public class TransitionSystemParser extends Parser {
 
 
 	// $ANTLR start "numberList"
-	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:20:1: numberList returns [String s = \"\"] : (e= NUMBER ',' e= NUMBER ( ',' e= NUMBER )* |e= NUMBER |);
+	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:20:1: numberList returns [String s = \"\"] : (e= NUMBER ( ',' e= NUMBER )* |);
 	public final String numberList() throws RecognitionException {
 		String s =  "";
 
@@ -180,33 +179,14 @@ public class TransitionSystemParser extends Parser {
 		Token e=null;
 
 		try {
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:21:2: (e= NUMBER ',' e= NUMBER ( ',' e= NUMBER )* |e= NUMBER |)
-			int alt4=3;
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:21:2: (e= NUMBER ( ',' e= NUMBER )* |)
+			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0==NUMBER) ) {
-				int LA4_1 = input.LA(2);
-				if ( (LA4_1==8) ) {
-					alt4=1;
-				}
-				else if ( (LA4_1==12) ) {
-					alt4=2;
-				}
-
-				else {
-					int nvaeMark = input.mark();
-					try {
-						input.consume();
-						NoViableAltException nvae =
-							new NoViableAltException("", 4, 1, input);
-						throw nvae;
-					} finally {
-						input.rewind(nvaeMark);
-					}
-				}
-
+				alt4=1;
 			}
 			else if ( (LA4_0==12) ) {
-				alt4=3;
+				alt4=2;
 			}
 
 			else {
@@ -217,14 +197,11 @@ public class TransitionSystemParser extends Parser {
 
 			switch (alt4) {
 				case 1 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:21:4: e= NUMBER ',' e= NUMBER ( ',' e= NUMBER )*
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:21:7: e= NUMBER ( ',' e= NUMBER )*
 					{
-					e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList139); 
+					e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList142); 
 					s  = e.getText();
-					match(input,8,FOLLOW_8_in_numberList142); 
-					e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList152); 
-					s += "," + e.getText();
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:22:41: ( ',' e= NUMBER )*
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:22:2: ( ',' e= NUMBER )*
 					loop3:
 					while (true) {
 						int alt3=2;
@@ -235,10 +212,10 @@ public class TransitionSystemParser extends Parser {
 
 						switch (alt3) {
 						case 1 :
-							// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:22:42: ',' e= NUMBER
+							// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:22:3: ',' e= NUMBER
 							{
-							match(input,8,FOLLOW_8_in_numberList157); 
-							e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList167); 
+							match(input,8,FOLLOW_8_in_numberList148); 
+							e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList154); 
 							s += "," + e.getText();
 							}
 							break;
@@ -251,14 +228,7 @@ public class TransitionSystemParser extends Parser {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:24:4: e= NUMBER
-					{
-					e=(Token)match(input,NUMBER,FOLLOW_NUMBER_in_numberList180); 
-					s  = e.getText();
-					}
-					break;
-				case 3 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:25:10: 
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:23:13: 
 					{
 					s  = "";
 					}
@@ -280,7 +250,7 @@ public class TransitionSystemParser extends Parser {
 
 
 	// $ANTLR start "stringList"
-	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:29:1: stringList returns [String s = \"\"] : (e= STRING ',' e= STRING ( ',' e= STRING )* |e= STRING |);
+	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:27:1: stringList returns [String s = \"\"] : (e= STRING ( ',' e= STRING )* |);
 	public final String stringList() throws RecognitionException {
 		String s =  "";
 
@@ -288,33 +258,14 @@ public class TransitionSystemParser extends Parser {
 		Token e=null;
 
 		try {
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:30:2: (e= STRING ',' e= STRING ( ',' e= STRING )* |e= STRING |)
-			int alt6=3;
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:28:2: (e= STRING ( ',' e= STRING )* |)
+			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( (LA6_0==STRING) ) {
-				int LA6_1 = input.LA(2);
-				if ( (LA6_1==8) ) {
-					alt6=1;
-				}
-				else if ( (LA6_1==10) ) {
-					alt6=2;
-				}
-
-				else {
-					int nvaeMark = input.mark();
-					try {
-						input.consume();
-						NoViableAltException nvae =
-							new NoViableAltException("", 6, 1, input);
-						throw nvae;
-					} finally {
-						input.rewind(nvaeMark);
-					}
-				}
-
+				alt6=1;
 			}
 			else if ( (LA6_0==10) ) {
-				alt6=3;
+				alt6=2;
 			}
 
 			else {
@@ -325,14 +276,11 @@ public class TransitionSystemParser extends Parser {
 
 			switch (alt6) {
 				case 1 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:30:4: e= STRING ',' e= STRING ( ',' e= STRING )*
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:28:7: e= STRING ( ',' e= STRING )*
 					{
-					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList225); 
+					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList207); 
 					s  = e.getText();
-					match(input,8,FOLLOW_8_in_stringList228); 
-					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList238); 
-					s += "," + e.getText();
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:31:41: ( ',' e= STRING )*
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:29:2: ( ',' e= STRING )*
 					loop5:
 					while (true) {
 						int alt5=2;
@@ -343,10 +291,10 @@ public class TransitionSystemParser extends Parser {
 
 						switch (alt5) {
 						case 1 :
-							// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:31:42: ',' e= STRING
+							// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:29:3: ',' e= STRING
 							{
-							match(input,8,FOLLOW_8_in_stringList243); 
-							e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList253); 
+							match(input,8,FOLLOW_8_in_stringList213); 
+							e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList219); 
 							s += "," + e.getText();
 							}
 							break;
@@ -359,14 +307,7 @@ public class TransitionSystemParser extends Parser {
 					}
 					break;
 				case 2 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:33:4: e= STRING
-					{
-					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList266); 
-					s  = e.getText();
-					}
-					break;
-				case 3 :
-					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:34:10: 
+					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:30:13: 
 					{
 					s  = "";
 					}
@@ -399,16 +340,10 @@ public class TransitionSystemParser extends Parser {
 	public static final BitSet FOLLOW_12_in_getModel63 = new BitSet(new long[]{0x0000000000000800L});
 	public static final BitSet FOLLOW_EOF_in_getModel71 = new BitSet(new long[]{0x0000000000000002L});
 	public static final BitSet FOLLOW_7_in_initialStar92 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NUMBER_in_numberList139 = new BitSet(new long[]{0x0000000000000100L});
-	public static final BitSet FOLLOW_8_in_numberList142 = new BitSet(new long[]{0x0000000000000010L});
-	public static final BitSet FOLLOW_NUMBER_in_numberList152 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_8_in_numberList157 = new BitSet(new long[]{0x0000000000000010L});
-	public static final BitSet FOLLOW_NUMBER_in_numberList167 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_NUMBER_in_numberList180 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_STRING_in_stringList225 = new BitSet(new long[]{0x0000000000000100L});
-	public static final BitSet FOLLOW_8_in_stringList228 = new BitSet(new long[]{0x0000000000000020L});
-	public static final BitSet FOLLOW_STRING_in_stringList238 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_8_in_stringList243 = new BitSet(new long[]{0x0000000000000020L});
-	public static final BitSet FOLLOW_STRING_in_stringList253 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_STRING_in_stringList266 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NUMBER_in_numberList142 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_8_in_numberList148 = new BitSet(new long[]{0x0000000000000010L});
+	public static final BitSet FOLLOW_NUMBER_in_numberList154 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_STRING_in_stringList207 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_8_in_stringList213 = new BitSet(new long[]{0x0000000000000020L});
+	public static final BitSet FOLLOW_STRING_in_stringList219 = new BitSet(new long[]{0x0000000000000102L});
 }

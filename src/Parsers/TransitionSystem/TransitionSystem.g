@@ -12,26 +12,22 @@ getModel returns [Model model = new Model(null)]
 	 ;
 	
 initialStar returns [boolean b]
-	: e = '*' {b = e.getText().length() > 0;}
-	|         {b = false;}
+	: '*' {b = true;}
+	|     {b = false;}
 	;
 	
 NUMBER : ('0'..'9')+;
 numberList returns [String s = ""]
-	: e = NUMBER {s  = e.getText();}',' 
-	  e = NUMBER {s += "," + e.getText();} (',' 
-	  e = NUMBER {s += "," + e.getText();})*
-	| e = NUMBER {s  = e.getText();}
-	| 	     {s  = "";}
+	:    e = NUMBER {s  = e.getText();}
+	(',' e = NUMBER {s += "," + e.getText();})*
+	| 	        {s  = "";}
 	;
 	
 STRING : ('a'..'z')+;
 stringList returns [String s = ""]
-	: e = STRING {s  = e.getText();}',' 
-	  e = STRING {s += "," + e.getText();} (',' 
-	  e = STRING {s += "," + e.getText();})*
-	| e = STRING {s  = e.getText();}
-	| 	     {s  = "";}
+	:    e = STRING {s  = e.getText();}
+	(',' e = STRING {s += "," + e.getText();})*
+	| 	        {s  = "";}
 	;
 
 WS : (' '|'\t'|'\r'|'\n')+ { $channel = HIDDEN; } ;
