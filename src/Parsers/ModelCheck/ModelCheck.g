@@ -33,7 +33,7 @@ precedenceAnd [Model model] returns [HashSet<State> phi]
 	
 precedenceSingularArgument [Model model] returns [HashSet<State> phi]
 	: e = precedenceAP[model] {phi = e;}
-	| 'not'e = precedenceSingularArgument [model] {phi = model.complementOf(e);}
+	| 'not'e = precedenceSingularArgument[model] {phi = model.complementOf(e);}
 	| 'AF' e = precedenceSingularArgument[model] {phi = model.AF(e);}
 	| 'AG' e = precedenceSingularArgument[model] {phi = model.AG(e);}
 	| 'AX' e = precedenceSingularArgument[model] {phi = model.AX(e);}
