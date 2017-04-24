@@ -21,6 +21,8 @@ public class testAG {
 		//There are no states where all paths from them will make them stay on a vowel.
 		HashSet<State> result = model.AG(model.getStatesWithLabel("v"));
 		assertEquals(0, result.size());
+		
+		testParsers.checkParserSameResult(model, result, "AG v");
 	}
 	
 	@Test
@@ -31,6 +33,8 @@ public class testAG {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
+		
+		testParsers.checkParserSameResult(model, result, "AG c");
 	}
 
 	@Test
@@ -39,6 +43,8 @@ public class testAG {
 		//There are no states with label "kage", so the result should be of size 0:
 		HashSet<State> result = model.AG(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());
+		
+		testParsers.checkParserSameResult(model, result, "AG kage");
 	}
 	
 	@Test
@@ -56,6 +62,8 @@ public class testAG {
 		HashSet<State> result = model.AG(model.getStatesWithLabel("a"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
+		
+		testParsers.checkParserSameResult(model, result, "AG a");
 	}
 	
 	@Test
@@ -72,6 +80,8 @@ public class testAG {
 		HashSet<State> result = model.AG(model.getStatesWithLabel("a"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
+		
+		testParsers.checkParserSameResult(model, result, "AG a");
 	}
 	
 	

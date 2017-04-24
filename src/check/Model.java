@@ -13,15 +13,18 @@ import java.util.stream.Collectors;
 public class Model {
 	public final HashMap<Integer, State> stateMap = new HashMap<Integer, State>();
 	public final HashSet<State> states = new HashSet<State>();
-	private final ArrayList<String> atomicPropositions;
+	private final ArrayList<String> atomicPropositions = new ArrayList<String>();
 	private final HashSet<State> initialStates = new HashSet<State>();
 	private boolean hasBeenInitialized = false;
 
 	public Model(final String atomicPropositionsString) {
+		//(*)can't add propositions at the start anymore
+		/*
 		final Set<String> hs = new HashSet<String>();
 		hs.addAll(Arrays.asList(atomicPropositionsString.split(",")));
 		atomicPropositions = new ArrayList<String>(hs);
 		atomicPropositions.sort(Comparator.naturalOrder());
+		*/
 	}
 
 	public void setStartStates(String startStateNumbersString) {
@@ -71,8 +74,11 @@ public class Model {
 		}
 		hasBeenInitialized = true;
 	}
-
 	public void addState(final int stateNumber, final String labelString, final String edgeString) {
+		addState(stateNumber, labelString, edgeString, false);
+	}
+
+	public void addState(final int stateNumber, final String labelString, final String edgeString, boolean isStartState) {
 		if (hasBeenInitialized) {
 			throw new Error(
 					"Error: one must not add a new state to the transition system after it has been initialized.");
@@ -87,9 +93,15 @@ public class Model {
 		Arrays.sort(labels); // Just for the heck of it. It is nicer to debug
 								// with a sorted array.
 		for (String label : labels) {
+			//(*) can't add labels at the start anymore
+			if (!atomicPropositions.contains(label)) {
+				atomicPropositions.add(label);
+			}
+			/*
 			if (!atomicPropositions.contains(label)) {
 				throw new Error("Error: " + label + " is not an atomic proposition.");
 			}
+			*/
 		}
 
 		final String[] edgesStrings = edgeString.split(",");
@@ -115,9 +127,13 @@ public class Model {
 			}
 		}
 		// If this has been reached, it is a legal state!
-		State newState = new State(this, stateNumber, labels, edges);
+		final State newState = new State(this, stateNumber, labels, edges);
 		stateMap.put(newState.getStateNumber(), newState);
 		states.add(newState);
+		//(*)add to initials state if true
+		if (isStartState) {
+			initialStates.add(newState);
+		}
 	}
 
 	public HashSet<State> getStatesWithLabel(String labelToFind) {

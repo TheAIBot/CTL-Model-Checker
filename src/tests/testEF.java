@@ -19,6 +19,8 @@ public class testEF {
 		HashSet<State> phiStates = new HashSet<State>();
 		HashSet<State> acceptedStates = model.EF(phiStates);
 		assertEquals(0, acceptedStates.size());
+		
+		testParsers.checkParserSameResult(model, acceptedStates, "EF(not tt)");
 	}
 	
 	@Test

@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.HashSet;
 import org.junit.Test;
 
+import tests.testParsers;
+
 public class Towers {
 	
 	public static void main(String[] args) {
@@ -16,12 +18,15 @@ public class Towers {
 		
 		//every corner only has two edges
 		HashSet<State> phi = new HashSet<State>();
-		phi.addAll(model.unionOf(model.unionOf(model.getStatesWithLabel("AAA"),model.getStatesWithLabel("BBB")),model.getStatesWithLabel("CCC")));
+		phi.addAll(model.unionOf(model.unionOf(model.getStatesWithLabel("AAA"),
+											   model.getStatesWithLabel("BBB")),
+								 model.getStatesWithLabel("CCC")));
 		//phi.add(model.getState(11));
 		//phi.add(model.getState(26));
 		//phi.add(model.getState(39));
 		model.setStartStates("12,13,24,27,35,38");
 		assertTrue(model.checkIncludesInitialStates(model.EX(phi)));
+		testParsers.checkParserSameResult(model, model.EX(phi), "EX(AAA or BBB or CCC)");
 		
 		//towers of hanoi is made out of 3 smaller triangles
 		//as they are all the same this proves that one contains loops
@@ -52,6 +57,7 @@ public class Towers {
 		phi.addAll(model.getStatesWithLabel("CCC"));
 		model.setStartStates("11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39");
 		assertTrue(model.checkIncludesInitialStates(model.EF(phi)));
+		testParsers.checkParserSameResult(model, model.EF(phi), "EF CCC");
 		
 		//Will stay in triangle forever:
 		phi.clear();
@@ -74,9 +80,8 @@ public class Towers {
 		phi.clear();
 		phi.addAll(model.getStatesWithLabel("CCC"));
 		model.setStartStates("11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39");
-		assertFalse(model.checkIncludesInitialStates(
-					model.AF(phi)
-				    ));
+		assertFalse(model.checkIncludesInitialStates(model.AF(phi)));
+		testParsers.checkParserSameResult(model, phi, "AF CCC");
 		
 		
 		//and a few random ones

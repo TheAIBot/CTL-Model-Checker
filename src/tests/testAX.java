@@ -19,6 +19,8 @@ public class testAX {
 		HashSet<State> result = model.AX(model.getStatesWithLabel("v"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
+		
+		testParsers.checkParserSameResult(model, result, "AX v");
 	}
 	
 	@Test
@@ -29,6 +31,8 @@ public class testAX {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
+		
+		testParsers.checkParserSameResult(model, result, "AX c");
 	}
 	
 	@Test
@@ -37,6 +41,8 @@ public class testAX {
 		//There are no states with label "kage", so the result should have size 0:
 		HashSet<State> result = model.AX(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());
+		
+		testParsers.checkParserSameResult(model, result, "AX kage");
 	}
 	
 	@Test
@@ -47,6 +53,8 @@ public class testAX {
 		
 		HashSet<State> result = model.AX(model.getStatesWithLabel("a"));
 		assertEquals(0, result.size());
+		
+		testParsers.checkParserSameResult(model, result, "AX a");
 	}
 	
 	@Test
@@ -63,6 +71,8 @@ public class testAX {
 		HashSet<State> result = model.AX(model.getStatesWithLabel("a"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
+		
+		testParsers.checkParserSameResult(model, result, "AX a");
 	}
 
 }

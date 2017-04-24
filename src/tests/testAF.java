@@ -20,6 +20,8 @@ public class testAF {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
+		
+		testParsers.checkParserSameResult(model, result, "AF v");
 	}
 	
 	@Test
@@ -30,6 +32,8 @@ public class testAF {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
+		
+		testParsers.checkParserSameResult(model, result, "AF c");
 	}
 	
 	@Test
@@ -53,6 +57,8 @@ public class testAF {
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
 		assertTrue(result.contains(model.getState(5)));
+		
+		testParsers.checkParserSameResult(model, result, "AF a");
 	}
 	
 	@Test
@@ -74,6 +80,8 @@ public class testAF {
 		assertTrue(result.contains(model.getState(3)));
 		assertTrue(result.contains(model.getState(4)));
 		assertTrue(result.contains(model.getState(5)));
+		
+		testParsers.checkParserSameResult(model, result, "AF a");
 	}
 
 	@Test
@@ -96,6 +104,8 @@ public class testAF {
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
 		assertTrue(result.contains(model.getState(3)));
+		
+		testParsers.checkParserSameResult(model, result, "AF e");
 	}
 	
 	@Test
@@ -114,6 +124,8 @@ public class testAF {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
+		
+		testParsers.checkParserSameResult(model, result, "AF e");
 	}
 	@Test
 	public void testGoToNonexistentState() {
@@ -121,6 +133,8 @@ public class testAF {
 		//There are no states with label "kage", so the result should have size 0:
 		HashSet<State> result = model.AF(model.getStatesWithLabel("kage"));
 		assertEquals(0, result.size());
+		
+		testParsers.checkParserSameResult(model, result, "AF kage");
 	}
 	
 	@Test
@@ -139,6 +153,8 @@ public class testAF {
 		assertEquals(2, result.size());
 		assertTrue(result.contains(model.getState(1)));
 		assertTrue(result.contains(model.getState(2)));
+		
+		testParsers.checkParserSameResult(model, result, "AF a");
 	}
 	
 	@Test
@@ -155,6 +171,8 @@ public class testAF {
 		HashSet<State> result = model.AF(model.getStatesWithLabel("a"));
 		assertEquals(1, result.size());
 		assertTrue(result.contains(model.getState(1)));
+		
+		testParsers.checkParserSameResult(model, result, "AF a");
 	}
 	
 }
