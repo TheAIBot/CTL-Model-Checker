@@ -1,4 +1,7 @@
-// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g 2017-04-23 17:22:38
+// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g 2017-04-24 11:30:18
+
+package Parsers.ModelCheck.output;
+
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -19,6 +22,7 @@ public class ModelCheckLexer extends Lexer {
 	public static final int T__14=14;
 	public static final int T__15=15;
 	public static final int T__16=16;
+	public static final int T__17=17;
 	public static final int STRING=4;
 	public static final int WS=5;
 
@@ -42,8 +46,8 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__6;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:7:6: ( '(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:7:8: '('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:11:6: ( '(' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:11:8: '('
 			{
 			match('('); 
 			}
@@ -62,8 +66,8 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__7;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:8:6: ( ')' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:8:8: ')'
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:12:6: ( ')' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:12:8: ')'
 			{
 			match(')'); 
 			}
@@ -82,10 +86,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__8;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:9:6: ( 'AF(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:9:8: 'AF('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:13:6: ( 'AF' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:13:8: 'AF'
 			{
-			match("AF("); 
+			match("AF"); 
 
 			}
 
@@ -103,10 +107,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__9;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:10:6: ( 'AG(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:10:8: 'AG('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:14:6: ( 'AG' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:14:8: 'AG'
 			{
-			match("AG("); 
+			match("AG"); 
 
 			}
 
@@ -124,10 +128,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__10;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:11:7: ( 'AX(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:11:9: 'AX('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:15:7: ( 'AX' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:15:9: 'AX'
 			{
-			match("AX("); 
+			match("AX"); 
 
 			}
 
@@ -145,10 +149,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__11;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:12:7: ( 'EF(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:12:9: 'EF('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:16:7: ( 'EF' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:16:9: 'EF'
 			{
-			match("EF("); 
+			match("EF"); 
 
 			}
 
@@ -166,10 +170,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__12;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:13:7: ( 'EG(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:13:9: 'EG('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:17:7: ( 'EG' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:17:9: 'EG'
 			{
-			match("EG("); 
+			match("EG"); 
 
 			}
 
@@ -187,10 +191,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__13;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:14:7: ( 'EX(' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:14:9: 'EX('
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:18:7: ( 'EX' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:18:9: 'EX'
 			{
-			match("EX("); 
+			match("EX"); 
 
 			}
 
@@ -208,8 +212,8 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__14;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:15:7: ( 'and' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:15:9: 'and'
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:19:7: ( 'and' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:19:9: 'and'
 			{
 			match("and"); 
 
@@ -229,8 +233,8 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__15;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:16:7: ( 'not' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:16:9: 'not'
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:20:7: ( 'not' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:20:9: 'not'
 			{
 			match("not"); 
 
@@ -250,10 +254,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = T__16;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:17:7: ( 'tt' )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:17:9: 'tt'
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:21:7: ( 'or' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:21:9: 'or'
 			{
-			match("tt"); 
+			match("or"); 
 
 			}
 
@@ -266,15 +270,36 @@ public class ModelCheckLexer extends Lexer {
 	}
 	// $ANTLR end "T__16"
 
+	// $ANTLR start "T__17"
+	public final void mT__17() throws RecognitionException {
+		try {
+			int _type = T__17;
+			int _channel = DEFAULT_TOKEN_CHANNEL;
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:22:7: ( 'tt' )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:22:9: 'tt'
+			{
+			match("tt"); 
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "T__17"
+
 	// $ANTLR start "STRING"
 	public final void mSTRING() throws RecognitionException {
 		try {
 			int _type = STRING;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:38:8: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:38:10: ( 'a' .. 'z' | 'A' .. 'Z' )+
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:51:8: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:51:10: ( 'a' .. 'z' | 'A' .. 'Z' )+
 			{
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:38:10: ( 'a' .. 'z' | 'A' .. 'Z' )+
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:51:10: ( 'a' .. 'z' | 'A' .. 'Z' )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -323,10 +348,10 @@ public class ModelCheckLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:40:5: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:40:9: ( ' ' | '\\t' | '\\r' | '\\n' )+
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:53:5: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:53:9: ( ' ' | '\\t' | '\\r' | '\\n' )+
 			{
-			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:40:9: ( ' ' | '\\t' | '\\r' | '\\n' )+
+			// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:53:9: ( ' ' | '\\t' | '\\r' | '\\n' )+
 			int cnt2=0;
 			loop2:
 			while (true) {
@@ -373,8 +398,8 @@ public class ModelCheckLexer extends Lexer {
 
 	@Override
 	public void mTokens() throws RecognitionException {
-		// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:8: ( T__6 | T__7 | T__8 | T__9 | T__10 | T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | STRING | WS )
-		int alt3=13;
+		// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:8: ( T__6 | T__7 | T__8 | T__9 | T__10 | T__11 | T__12 | T__13 | T__14 | T__15 | T__16 | T__17 | STRING | WS )
+		int alt3=14;
 		switch ( input.LA(1) ) {
 		case '(':
 			{
@@ -391,45 +416,45 @@ public class ModelCheckLexer extends Lexer {
 			switch ( input.LA(2) ) {
 			case 'F':
 				{
-				int LA3_10 = input.LA(3);
-				if ( (LA3_10=='(') ) {
-					alt3=3;
+				int LA3_11 = input.LA(3);
+				if ( ((LA3_11 >= 'A' && LA3_11 <= 'Z')||(LA3_11 >= 'a' && LA3_11 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=3;
 				}
 
 				}
 				break;
 			case 'G':
 				{
-				int LA3_11 = input.LA(3);
-				if ( (LA3_11=='(') ) {
-					alt3=4;
+				int LA3_12 = input.LA(3);
+				if ( ((LA3_12 >= 'A' && LA3_12 <= 'Z')||(LA3_12 >= 'a' && LA3_12 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=4;
 				}
 
 				}
 				break;
 			case 'X':
 				{
-				int LA3_12 = input.LA(3);
-				if ( (LA3_12=='(') ) {
-					alt3=5;
+				int LA3_13 = input.LA(3);
+				if ( ((LA3_13 >= 'A' && LA3_13 <= 'Z')||(LA3_13 >= 'a' && LA3_13 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=5;
 				}
 
 				}
 				break;
 			default:
-				alt3=12;
+				alt3=13;
 			}
 			}
 			break;
@@ -438,45 +463,45 @@ public class ModelCheckLexer extends Lexer {
 			switch ( input.LA(2) ) {
 			case 'F':
 				{
-				int LA3_13 = input.LA(3);
-				if ( (LA3_13=='(') ) {
-					alt3=6;
+				int LA3_14 = input.LA(3);
+				if ( ((LA3_14 >= 'A' && LA3_14 <= 'Z')||(LA3_14 >= 'a' && LA3_14 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=6;
 				}
 
 				}
 				break;
 			case 'G':
 				{
-				int LA3_14 = input.LA(3);
-				if ( (LA3_14=='(') ) {
-					alt3=7;
+				int LA3_15 = input.LA(3);
+				if ( ((LA3_15 >= 'A' && LA3_15 <= 'Z')||(LA3_15 >= 'a' && LA3_15 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=7;
 				}
 
 				}
 				break;
 			case 'X':
 				{
-				int LA3_15 = input.LA(3);
-				if ( (LA3_15=='(') ) {
-					alt3=8;
+				int LA3_16 = input.LA(3);
+				if ( ((LA3_16 >= 'A' && LA3_16 <= 'Z')||(LA3_16 >= 'a' && LA3_16 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
-					alt3=12;
+					alt3=8;
 				}
 
 				}
 				break;
 			default:
-				alt3=12;
+				alt3=13;
 			}
 			}
 			break;
@@ -484,11 +509,11 @@ public class ModelCheckLexer extends Lexer {
 			{
 			int LA3_5 = input.LA(2);
 			if ( (LA3_5=='n') ) {
-				int LA3_16 = input.LA(3);
-				if ( (LA3_16=='d') ) {
-					int LA3_25 = input.LA(4);
-					if ( ((LA3_25 >= 'A' && LA3_25 <= 'Z')||(LA3_25 >= 'a' && LA3_25 <= 'z')) ) {
-						alt3=12;
+				int LA3_17 = input.LA(3);
+				if ( (LA3_17=='d') ) {
+					int LA3_27 = input.LA(4);
+					if ( ((LA3_27 >= 'A' && LA3_27 <= 'Z')||(LA3_27 >= 'a' && LA3_27 <= 'z')) ) {
+						alt3=13;
 					}
 
 					else {
@@ -498,13 +523,13 @@ public class ModelCheckLexer extends Lexer {
 				}
 
 				else {
-					alt3=12;
+					alt3=13;
 				}
 
 			}
 
 			else {
-				alt3=12;
+				alt3=13;
 			}
 
 			}
@@ -513,11 +538,11 @@ public class ModelCheckLexer extends Lexer {
 			{
 			int LA3_6 = input.LA(2);
 			if ( (LA3_6=='o') ) {
-				int LA3_17 = input.LA(3);
-				if ( (LA3_17=='t') ) {
-					int LA3_26 = input.LA(4);
-					if ( ((LA3_26 >= 'A' && LA3_26 <= 'Z')||(LA3_26 >= 'a' && LA3_26 <= 'z')) ) {
-						alt3=12;
+				int LA3_18 = input.LA(3);
+				if ( (LA3_18=='t') ) {
+					int LA3_28 = input.LA(4);
+					if ( ((LA3_28 >= 'A' && LA3_28 <= 'Z')||(LA3_28 >= 'a' && LA3_28 <= 'z')) ) {
+						alt3=13;
 					}
 
 					else {
@@ -527,24 +552,24 @@ public class ModelCheckLexer extends Lexer {
 				}
 
 				else {
-					alt3=12;
+					alt3=13;
 				}
 
 			}
 
 			else {
-				alt3=12;
+				alt3=13;
 			}
 
 			}
 			break;
-		case 't':
+		case 'o':
 			{
 			int LA3_7 = input.LA(2);
-			if ( (LA3_7=='t') ) {
-				int LA3_18 = input.LA(3);
-				if ( ((LA3_18 >= 'A' && LA3_18 <= 'Z')||(LA3_18 >= 'a' && LA3_18 <= 'z')) ) {
-					alt3=12;
+			if ( (LA3_7=='r') ) {
+				int LA3_19 = input.LA(3);
+				if ( ((LA3_19 >= 'A' && LA3_19 <= 'Z')||(LA3_19 >= 'a' && LA3_19 <= 'z')) ) {
+					alt3=13;
 				}
 
 				else {
@@ -554,7 +579,28 @@ public class ModelCheckLexer extends Lexer {
 			}
 
 			else {
-				alt3=12;
+				alt3=13;
+			}
+
+			}
+			break;
+		case 't':
+			{
+			int LA3_8 = input.LA(2);
+			if ( (LA3_8=='t') ) {
+				int LA3_20 = input.LA(3);
+				if ( ((LA3_20 >= 'A' && LA3_20 <= 'Z')||(LA3_20 >= 'a' && LA3_20 <= 'z')) ) {
+					alt3=13;
+				}
+
+				else {
+					alt3=12;
+				}
+
+			}
+
+			else {
+				alt3=13;
 			}
 
 			}
@@ -595,7 +641,6 @@ public class ModelCheckLexer extends Lexer {
 		case 'k':
 		case 'l':
 		case 'm':
-		case 'o':
 		case 'p':
 		case 'q':
 		case 'r':
@@ -607,7 +652,7 @@ public class ModelCheckLexer extends Lexer {
 		case 'y':
 		case 'z':
 			{
-			alt3=12;
+			alt3=13;
 			}
 			break;
 		case '\t':
@@ -615,7 +660,7 @@ public class ModelCheckLexer extends Lexer {
 		case '\r':
 		case ' ':
 			{
-			alt3=13;
+			alt3=14;
 			}
 			break;
 		default:
@@ -702,14 +747,21 @@ public class ModelCheckLexer extends Lexer {
 				}
 				break;
 			case 12 :
-				// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:72: STRING
+				// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:72: T__17
+				{
+				mT__17(); 
+
+				}
+				break;
+			case 13 :
+				// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:78: STRING
 				{
 				mSTRING(); 
 
 				}
 				break;
-			case 13 :
-				// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:79: WS
+			case 14 :
+				// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\ModelCheck\\ModelCheck.g:1:85: WS
 				{
 				mWS(); 
 

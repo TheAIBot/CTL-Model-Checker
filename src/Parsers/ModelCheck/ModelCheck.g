@@ -4,35 +4,48 @@ options {
   language = Java;
 }
 
+@header {
+package Parsers.ModelCheck.output;
 
-start [Model model] returns [boolean b]
-	: e = precedence1[model] EOF {b = model.checkIncludesInitialStates(e);}
+import java.util.HashSet;
+import check.Model;
+import check.State;
+}
+
+@lexer::header {
+package Parsers.ModelCheck.output;
+}
+
+
+check [Model model] returns [boolean b]
+	: e = precedenceOr[model] EOF {b = model.checkIncludesInitialStates(e);}
 	;
 	
-precedence1 [Model model] returns [HashSet<State> phi]
-	: e = precedence2[model] {phi = e;}
-	 ('and' right = precedence2[model] {phi = model.intersectionOf(phi, right);})*
-	;
+precedenceOr [Model model] returns [HashSet<State> phi]
+	: e = precedenceAnd[model] {phi = e;}
+	 ('or' right = precedenceAnd[model] {phi = model.unionOf(phi, right);})*
+	;	
 	
-precedence2 [Model model] returns [HashSet<State> phi]
-	: e = precedence3[model] {phi = e;}
-	| 'not(' e = precedence3[model] ')' {phi = model.complementOf(e);}
+precedenceAnd [Model model] returns [HashSet<State> phi]
+	: e = precedenceSingularArgument[model] {phi = e;}
+	 ('and' right = precedenceSingularArgument[model] {phi = model.intersectionOf(phi, right);})*
+	;	
+	
+precedenceSingularArgument [Model model] returns [HashSet<State> phi]
+	: e = precedenceAP[model] {phi = e;}
+	| 'not'e = precedenceSingularArgument [model] {phi = model.complementOf(e);}
+	| 'AF' e = precedenceSingularArgument[model] {phi = model.AF(e);}
+	| 'AG' e = precedenceSingularArgument[model] {phi = model.AG(e);}
+	| 'AX' e = precedenceSingularArgument[model] {phi = model.AX(e);}
+	| 'EX' e = precedenceSingularArgument[model] {phi = model.EX(e);}
+	| 'EF' e = precedenceSingularArgument[model] {phi = model.EF(e);}
+	| 'EG' e = precedenceSingularArgument[model] {phi = model.EG(e);}
 	; 
 	
-precedence3 [Model model] returns [HashSet<State> phi]
-	: e = precedence4[model] {phi = e;}
-	| 'AF(' e = precedence1[model] ')' {phi = model.AF(e);}
-	| 'AG(' e = precedence1[model] ')' {phi = model.AG(e);}
-	| 'AX(' e = precedence1[model] ')' {phi = model.AX(e);}
-	| 'EX(' e = precedence1[model] ')' {phi = model.EX(e);}
-	| 'EF(' e = precedence1[model] ')' {phi = model.EF(e);}
-	| 'EG(' e = precedence1[model] ')' {phi = model.EG(e);}
-	;
-	
-precedence4 [Model model] returns [HashSet<State> phi]
+precedenceAP [Model model] returns [HashSet<State> phi]
 	: e = STRING {phi = model.getStatesWithLabel(e.getText());}
 	| 'tt' {phi = model.trueForAll();}
-	| '(' e1 = precedence1[model] ')' {phi = e1;}
+	| '(' e1 = precedenceOr[model] ')' {phi = e1;}
 	;
 	
 STRING : ('a'..'z'|'A'..'Z')+;

@@ -6,6 +6,17 @@ options {
   language = Java;
 }
 
+@header {
+package Parsers.TransitionSystem.output;
+
+import check.Model;
+}
+
+@lexer::header {
+package Parsers.TransitionSystem.output;
+}
+
+
 getModel returns [Model model = new Model(null)] 
 	: ('{' stateNumber = NUMBER isStartState = initialStar '[' atomProp = stringList ']' edges = numberList '}'
 		{$model.addState(Integer.parseInt(stateNumber.getText()), atomProp, edges, isStartState);})* EOF
