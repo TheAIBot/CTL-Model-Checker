@@ -40,6 +40,7 @@ public class testParsers {
 	public void testParseChecks() {
 		final Model model = Towers.getTowersOfHanoi();
 		
+		
 		canParseCheck(model, "tt");
 		canParseCheck(model, "(tt)");
 		canParseCheck(model, "(((((tt)))))");
