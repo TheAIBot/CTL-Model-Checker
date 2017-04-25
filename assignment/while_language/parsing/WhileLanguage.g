@@ -54,7 +54,7 @@ base_bool_expr returns [BoolExpr value]
     : 'true'                             { $value = new BoolValueExpr(true); }
     | 'false'                            { $value = new BoolValueExpr(false); }
     | e1=arith_expr '='  e2=arith_expr   { $value = new EqualsExpr(e1,e2); }
-	 | e1=arith_expr '<=' e2=arith_expr   { $value = new GreaterThanOrEqualsExpr(e1,e2);}    	  //Added by question 2
+	 | e1=arith_expr '<=' e2=arith_expr   { $value = new LessThanOrEqualsExpr(e1,e2);}    	  //Added by question 2
 	 | e1=arith_expr '!=' e2=arith_expr   { $value = new NotExpr(new EqualsExpr(e1,e2));}       //Added by question 2
     ;
 

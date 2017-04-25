@@ -1,0 +1,15 @@
+if false || false
+then b1 := 1
+else b1 := 0;
+
+if false || true
+then b2 := 1
+else b2 := 0;
+
+if true || false
+then b3 := 1
+else b3 := 0;
+
+if true || true
+then b4 := 1
+else b4 := 0

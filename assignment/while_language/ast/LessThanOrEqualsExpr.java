@@ -3,12 +3,12 @@ package while_language.ast;
 import while_language.Environment;
 import while_language.VariableNotDefinedException;
 
-public class GreaterThanOrEqualsExpr extends BoolExpr {
+public class LessThanOrEqualsExpr extends BoolExpr {
 
 	private ArithExpr expression1;
 	private ArithExpr expression2;
 	
-	public GreaterThanOrEqualsExpr(ArithExpr expression1, ArithExpr expression2) {
+	public LessThanOrEqualsExpr(ArithExpr expression1, ArithExpr expression2) {
 		this.expression1 = expression1;
 		this.expression2 = expression2;
 	}
