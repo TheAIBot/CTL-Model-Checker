@@ -10,6 +10,8 @@ import java.util.HashSet;
 
 import Parsers.ModelCheck.output.ModelCheckLexer;
 import Parsers.ModelCheck.output.ModelCheckParser;
+import Parsers.TransitionSystem.output.TransitionSystemLexer;
+import Parsers.TransitionSystem.output.TransitionSystemParser;
 import check.Model;
 import check.State;
 import check.Towers;
@@ -72,13 +74,16 @@ public class testParsers {
 		
 	}
 	
-	public static void testParseTransitionSystem() {
-		canParseCheck(model, "");
+	@Test
+	public void testParseTransitionSystem() {
+		canParseSystem("");
 		
-		String fisk = "";
-		for (int i = 0; i < 100000; i++) {
-			
+		String fisk = "{1* [v] 2}";
+		for (int i = 0; i < 10000; i++) {
+			fisk += "{" + (i + 2) + " [v] 1, 4}";
 		}
+		
+		canParseSystem(fisk);
 	}
 	
 	public static void checkParserSameResult(Model model, HashSet<State> phi, String input) {		
@@ -100,6 +105,18 @@ public class testParsers {
 		
 		try {
 			parser.check(model);
+		} catch (RecognitionException e) {
+			Assert.fail("couldn't parse string");
+		}
+	}
+	
+	private void canParseSystem(String input) {
+		final TransitionSystemLexer lex = new TransitionSystemLexer(new ANTLRStringStream(input));
+		final CommonTokenStream tokens = new CommonTokenStream(lex);
+		final TransitionSystemParser parser = new TransitionSystemParser(tokens);
+		
+		try {
+			parser.getModel();
 		} catch (RecognitionException e) {
 			Assert.fail("couldn't parse string");
 		}
