@@ -34,7 +34,7 @@ numberList returns [String s = ""]
 	| 	        {s  = "";}
 	;
 	
-STRING : ('a'..'z')+;
+STRING : ('a'..'z'|'A'..'Z')+;
 stringList returns [String s = ""]
 	:    e = STRING {s  = e.getText();}
 	(',' e = STRING {s += "," + e.getText();})*

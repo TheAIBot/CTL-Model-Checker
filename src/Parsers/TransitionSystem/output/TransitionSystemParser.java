@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-25 07:52:40
+// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-25 14:19:11
 
 package Parsers.TransitionSystem.output;
 
@@ -279,7 +279,7 @@ public class TransitionSystemParser extends Parser {
 				case 1 :
 					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:39:7: e= STRING ( ',' e= STRING )*
 					{
-					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList215); 
+					e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList219); 
 					s  = e.getText();
 					// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:40:2: ( ',' e= STRING )*
 					loop5:
@@ -294,8 +294,8 @@ public class TransitionSystemParser extends Parser {
 						case 1 :
 							// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:40:3: ',' e= STRING
 							{
-							match(input,8,FOLLOW_8_in_stringList221); 
-							e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList227); 
+							match(input,8,FOLLOW_8_in_stringList225); 
+							e=(Token)match(input,STRING,FOLLOW_STRING_in_stringList231); 
 							s += "," + e.getText();
 							}
 							break;
@@ -344,7 +344,7 @@ public class TransitionSystemParser extends Parser {
 	public static final BitSet FOLLOW_NUMBER_in_numberList150 = new BitSet(new long[]{0x0000000000000102L});
 	public static final BitSet FOLLOW_8_in_numberList156 = new BitSet(new long[]{0x0000000000000010L});
 	public static final BitSet FOLLOW_NUMBER_in_numberList162 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_STRING_in_stringList215 = new BitSet(new long[]{0x0000000000000102L});
-	public static final BitSet FOLLOW_8_in_stringList221 = new BitSet(new long[]{0x0000000000000020L});
-	public static final BitSet FOLLOW_STRING_in_stringList227 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_STRING_in_stringList219 = new BitSet(new long[]{0x0000000000000102L});
+	public static final BitSet FOLLOW_8_in_stringList225 = new BitSet(new long[]{0x0000000000000020L});
+	public static final BitSet FOLLOW_STRING_in_stringList231 = new BitSet(new long[]{0x0000000000000102L});
 }
