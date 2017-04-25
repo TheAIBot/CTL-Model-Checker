@@ -3,8 +3,14 @@ package check;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
+
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
 import org.junit.Test;
 
+import Parsers.TransitionSystem.output.TransitionSystemLexer;
+import Parsers.TransitionSystem.output.TransitionSystemParser;
 import tests.testParsers;
 
 public class Towers {
@@ -115,52 +121,46 @@ public class Towers {
 		main(new String[0]);
 	}
 	
-	public static Model getTowersOfHanoi() {
-		String atomicPropositions = "AAA,BAA,CAA,"
-								  + "ABA,BBA,CBA,"
-								  + "ACA,BCA,CCA,"
-								  + "AAB,BAB,CAB,"
-								  + "ABB,BBB,CBB,"
-								  + "ACB,BCB,CCB,"
-								  + "AAC,BAC,CAC,"
-								  + "ABC,BBC,CBC,"
-								  + "ACC,BCC,CCC,";
-		Model towersOfHanoi = new Model(atomicPropositions);
-		//Upper triangle
-		towersOfHanoi.addState(11, "AAA", "12,13");
-		towersOfHanoi.addState(12, "BAA", "11,14,13");
-		towersOfHanoi.addState(13, "CAA", "11,12,15");
-		towersOfHanoi.addState(14, "BCA", "12,16,17");
-		towersOfHanoi.addState(15, "CBA", "13,18,19");		
-		towersOfHanoi.addState(16, "CCA", "14,17,21");
-		towersOfHanoi.addState(17, "ACA", "14,16,18");		
-		towersOfHanoi.addState(18, "ABA", "17,15,19");
-		towersOfHanoi.addState(19, "BBA", "15,18,31");
+	public static Model getTowersOfHanoi() {		
+		String input  = "{11* [AAA] 12, 13}"   +
+						"{12* [BAA] 11,14,13}" +
+						"{13* [CAA] 11,12,15}" +
+						"{14* [BCA] 12,16,17}" +
+						"{15* [CBA] 13,18,19}" +
+						"{16* [CCA] 14,17,21}" +
+						"{17* [ACA] 14,16,18}" +
+						"{18* [ABA] 17,15,19}" +
+						"{19* [BBA] 15,18,31}" +
+						"{21* [CCB] 16,22,23}" +
+						"{22* [ACB] 21,24,23}" +
+						"{23* [BCB] 21,22,25}" +
+						"{24* [ABB] 22,26,27}" +
+						"{25* [BAB] 23,28,29}" +
+						"{26* [BBB] 24,27}"    +
+						"{27* [CBB] 24,26,28}" +
+						"{28* [CAB] 27,25,29}" +
+						"{29* [AAB] 25,28,36}" +
+						"{31* [BBC] 19,32,33}" +
+						"{32* [CBC] 31,34,33}" +
+						"{33* [ABC] 31,32,35}" +
+						"{34* [CAC] 32,36,37}" +
+						"{35* [ACC] 33,38,39}" +
+						"{36* [AAC] 29,34,37}" +
+						"{37* [BAC] 34,36,38}" +
+						"{38* [BCC] 37,35,39}" +
+						"{39* [CCC] 35,38}";
 		
-		//Left triangle:
-		towersOfHanoi.addState(21, "CCB,", "16,22,23");
-		towersOfHanoi.addState(22, "ACB,", "21,24,23");
-		towersOfHanoi.addState(23, "BCB,", "21,22,25");
-		towersOfHanoi.addState(24, "ABB,", "22,26,27");
-		towersOfHanoi.addState(25, "BAB,", "23,28,29");		
-		towersOfHanoi.addState(26, "BBB,", "24,27");
-		towersOfHanoi.addState(27, "CBB,", "24,26,28");		
-		towersOfHanoi.addState(28, "CAB,", "27,25,29");
-		towersOfHanoi.addState(29, "AAB,", "25,28,36");
-		
-		//Right triangle:		
-		towersOfHanoi.addState(31, "BBC", "19,32,33");
-		towersOfHanoi.addState(32, "CBC", "31,34,33");
-		towersOfHanoi.addState(33, "ABC", "31,32,35");
-		towersOfHanoi.addState(34, "CAC", "32,36,37");
-		towersOfHanoi.addState(35, "ACC", "33,38,39");		
-		towersOfHanoi.addState(36, "AAC", "29,34,37");
-		towersOfHanoi.addState(37, "BAC", "34,36,38");		
-		towersOfHanoi.addState(38, "BCC", "37,35,39");
-		towersOfHanoi.addState(39, "CCC", "35,38");
-		
-		towersOfHanoi.initialize();		
-		return towersOfHanoi;
+		TransitionSystemLexer lex = new TransitionSystemLexer(new ANTLRStringStream(input));
+		CommonTokenStream tokens = new CommonTokenStream(lex);
+		TransitionSystemParser parser = new TransitionSystemParser(tokens);
+		try {
+			Model model = parser.getModel();
+			model.initialize();
+			return model;
+		} catch (RecognitionException e) {
+			
+		}
+		throw new Error("Failed to parse model");
 	}
 
 }
