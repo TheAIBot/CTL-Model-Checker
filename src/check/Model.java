@@ -16,6 +16,8 @@ public class Model {
 	private final ArrayList<String> atomicPropositions = new ArrayList<String>();
 	private final HashSet<State> initialStates = new HashSet<State>();
 	private boolean hasBeenInitialized = false;
+	
+	public Model() { }
 
 	public Model(final String atomicPropositionsString) {
 		//(*)can't add propositions at the start anymore

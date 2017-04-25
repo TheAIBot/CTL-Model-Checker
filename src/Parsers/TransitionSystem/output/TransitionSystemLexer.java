@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-24 11:31:32
+// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-25 07:52:40
 
 package Parsers.TransitionSystem.output;
 

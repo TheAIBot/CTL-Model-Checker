@@ -1,4 +1,4 @@
-// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-24 11:31:32
+// $ANTLR 3.5.1 C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g 2017-04-25 07:52:40
 
 package Parsers.TransitionSystem.output;
 
@@ -48,9 +48,9 @@ public class TransitionSystemParser extends Parser {
 
 
 	// $ANTLR start "getModel"
-	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:20:1: getModel returns [Model model = new Model(null)] : ( '{' stateNumber= NUMBER isStartState= initialStar '[' atomProp= stringList ']' edges= numberList '}' )* EOF ;
+	// C:\\Users\\Andreas\\Documents\\GitHub\\CTL-Model-Checker\\src\\Parsers\\TransitionSystem\\TransitionSystem.g:20:1: getModel returns [Model model = new Model()] : ( '{' stateNumber= NUMBER isStartState= initialStar '[' atomProp= stringList ']' edges= numberList '}' )* EOF ;
 	public final Model getModel() throws RecognitionException {
-		Model model =  new Model(null);
+		Model model =  new Model();
 
 
 		Token stateNumber=null;

@@ -17,9 +17,9 @@ package Parsers.TransitionSystem.output;
 }
 
 
-getModel returns [Model model = new Model(null)] 
+getModel returns [Model model = new Model()] 
 	: ('{' stateNumber = NUMBER isStartState = initialStar '[' atomProp = stringList ']' edges = numberList '}'
-		{$model.addState(Integer.parseInt(stateNumber.getText()), atomProp, edges, isStartState);})* EOF
+		{model.addState(Integer.parseInt(stateNumber.getText()), atomProp, edges, isStartState);})* EOF
 	 ;
 	
 initialStar returns [boolean b]
