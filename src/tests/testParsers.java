@@ -40,7 +40,6 @@ public class testParsers {
 	public void testParseChecks() {
 		final Model model = Towers.getTowersOfHanoi();
 		
-		
 		canParseCheck(model, "tt");
 		canParseCheck(model, "(tt)");
 		canParseCheck(model, "(((((tt)))))");
@@ -71,6 +70,15 @@ public class testParsers {
 		canParseCheck(model, "tt and tt and tt and tt and tt and tt and tt and tt and tt");
 		canParseCheck(model, "tt or tt or tt or tt or tt or tt or tt or tt or tt");
 		
+	}
+	
+	public static void testParseTransitionSystem() {
+		canParseCheck(model, "");
+		
+		String fisk = "";
+		for (int i = 0; i < 100000; i++) {
+			
+		}
 	}
 	
 	public static void checkParserSameResult(Model model, HashSet<State> phi, String input) {		
